@@ -91,7 +91,7 @@ public class NewGameDialog extends AbstractDialog
     {
         JPanel pane = new JPanel();
         pane.setLayout(new BorderLayout());
-        WebButton btnSave = new WebButton("Save", e -> {
+        WebButton btnSave = new WebButton("Play", e -> {
             player.clear();
             player.setName(fieldPlayer.getText());
             player.setDifficulty(selectedDifficulty);
