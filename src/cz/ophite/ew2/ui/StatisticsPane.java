@@ -1,11 +1,13 @@
 package cz.ophite.ew2.ui;
 
-import java.awt.Frame;
+import java.awt.Component;
+
+import cz.ophite.ew2.ui.base.AbstractPane;
 
 @SuppressWarnings("serial")
 public class StatisticsPane extends AbstractPane
 {
-    public StatisticsPane(Frame owner)
+    public StatisticsPane(Component owner)
     {
         super(owner);
     }

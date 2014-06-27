@@ -1,7 +1,7 @@
 package cz.ophite.ew2.ui;
 
 import java.awt.Color;
-import java.awt.Frame;
+import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -15,13 +15,15 @@ import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
 
+import cz.ophite.ew2.ui.base.AbstractPane;
+
 @SuppressWarnings("serial")
 public abstract class ScenePane extends AbstractPane
 {
     private Timer timer;
     private BufferedImage backBuffer;
 
-    public ScenePane(Frame owner)
+    public ScenePane(Component owner)
     {
         super(owner);
     }
