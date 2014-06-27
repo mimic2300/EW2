@@ -5,6 +5,17 @@ public final class Player
     private String name;
     private Difficulty difficulty;
 
+    public Player()
+    {
+        clear();
+    }
+
+    public void clear()
+    {
+        name = null;
+        difficulty = Difficulty.getInitial();
+    }
+
     public String getName()
     {
         return name;

@@ -25,13 +25,13 @@ public final class GameWindow extends AbstractFrame
     public GameWindow()
     {
         super(Game.GAME_TITLE, 720, 480, false);
-
-        player = new Player();
     }
 
     @Override
     protected void initComponents()
     {
+        player = new Player();
+
         ComponentMoveAdapter.install(getRootPane(), GameWindow.this);
 
         navigationPane = new NavigationPane(this, player);
