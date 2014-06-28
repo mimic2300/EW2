@@ -43,7 +43,6 @@ public class NewGameDialog extends AbstractDialog
         super(owner, "New Game", 400, 260);
         this.gameBoard = gameBoard;
         selectedDifficulty = gameBoard.getDifficulty();
-        initComponents();
     }
 
     @Override
