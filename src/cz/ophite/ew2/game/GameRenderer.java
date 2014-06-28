@@ -8,17 +8,12 @@ import cz.ophite.ew2.ui.ScenePane;
 @SuppressWarnings("serial")
 public class GameRenderer extends ScenePane
 {
-    private Player player;
+    private GameBoard gameBoard;
 
-    public GameRenderer(Frame owner, Player player)
+    public GameRenderer(Frame owner, GameBoard gameBoard)
     {
         super(owner);
-        this.player = player;
-    }
-
-    public Player getPlayer()
-    {
-        return player;
+        this.gameBoard = gameBoard;
     }
 
     @Override
