@@ -5,5 +5,6 @@
   "window_width": 720,
   "window_height": 480,
   
-  "energy_rate": 1.15
+  "energy_rate": 1.15,
+  "initial_money": 50000
 }

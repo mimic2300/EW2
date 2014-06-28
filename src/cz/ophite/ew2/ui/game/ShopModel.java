@@ -15,8 +15,10 @@ public class ShopModel extends AbstractTableModel
 
     private String[] columnNames = { "Name", "Price", "Income", "Buy" };
     private Object[][] data = prepareData();
+    private Object[] longestRowPattern = { getLongestRowByName(), 1000000, 1000, true, "" };
+    private ShopModelListener modelListener;
 
-    public final Object[] longestRowPattern = { getLongestRowByName(), 1000000, 1000, true };
+    private int totalPrice = 0;
 
     @Override
     public int getColumnCount()
@@ -45,13 +47,13 @@ public class ShopModel extends AbstractTableModel
     @Override
     public Class<?> getColumnClass(int c)
     {
-        return longestRowPattern[c].getClass();
+        return getLongestRowPattern()[c].getClass();
     }
 
     @Override
     public boolean isCellEditable(int row, int col)
     {
-        return col >= 3;
+        return col == 3;
     }
 
     @Override
@@ -59,6 +61,18 @@ public class ShopModel extends AbstractTableModel
     {
         data[row][col] = value;
         fireTableCellUpdated(row, col);
+
+        String resCode = (String) data[row][getLongestRowPattern().length - 1];
+        Resource res = RP.getResourceByCode(resCode);
+
+        if (Boolean.TRUE.equals(value)) {
+            totalPrice += res.getPrice();
+        } else {
+            totalPrice -= res.getPrice();
+        }
+        if (modelListener != null) {
+            modelListener.checkResource(res, totalPrice);
+        }
     }
 
     private Object[][] prepareData()
@@ -71,6 +85,7 @@ public class ShopModel extends AbstractTableModel
             column.add(res.getPrice());
             column.add(res.getEnergyPerTick());
             column.add(false);
+            column.add(res.getCode());
 
             rows.add(column.toArray());
         }
@@ -79,6 +94,9 @@ public class ShopModel extends AbstractTableModel
 
     private String getLongestRowByName()
     {
+        if (RP.getResources().isEmpty()) {
+            return "";
+        }
         Resource longest = RP.getResources().get(0);
 
         for (Resource res : RP.getResources()) {
@@ -87,5 +105,15 @@ public class ShopModel extends AbstractTableModel
             }
         }
         return longest.getName();
+    }
+
+    public void setModelListener(ShopModelListener modelListener)
+    {
+        this.modelListener = modelListener;
+    }
+
+    public Object[] getLongestRowPattern()
+    {
+        return longestRowPattern;
     }
 }

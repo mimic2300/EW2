@@ -40,7 +40,7 @@ public class ShopPane extends AbstractPane implements Observer
         this.gameBoard = gameBoard;
         gameBoard.addObserver(this);
 
-        shopDialog = new ShopDialog(this);
+        shopDialog = new ShopDialog(this, gameBoard.getPlayer());
         calculateShopPosition();
         shopDialog.setVisible(true);// HACK FOR TESTING !!!
     }

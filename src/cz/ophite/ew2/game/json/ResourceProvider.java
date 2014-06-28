@@ -32,4 +32,14 @@ public final class ResourceProvider
     {
         return resourceJson.getResources();
     }
+
+    public Resource getResourceByCode(String resourceCode)
+    {
+        for (Resource res : resourceJson.getResources()) {
+            if (res.getCode().equalsIgnoreCase(resourceCode)) {
+                return res;
+            }
+        }
+        return null;
+    }
 }
