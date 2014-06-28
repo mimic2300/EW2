@@ -1,14 +1,17 @@
 package cz.ophite.ew2;
 
 import java.awt.EventQueue;
+import java.awt.Font;
 
 import javax.swing.UIManager;
+import javax.swing.plaf.FontUIResource;
 
 import com.alee.laf.WebLookAndFeel;
 
 import cz.ophite.ew2.game.json.ConfigProvider;
 import cz.ophite.ew2.game.json.DifficultyProvider;
 import cz.ophite.ew2.game.json.ResourceProvider;
+import cz.ophite.ew2.util.GuiUtil;
 
 public final class Game
 {
@@ -23,6 +26,8 @@ public final class Game
                 ConfigProvider.getInstance();
                 ResourceProvider.getInstance();
                 DifficultyProvider.getInstance();
+
+                GuiUtil.setUIFont(new FontUIResource(new Font(Font.SANS_SERIF, Font.PLAIN, 11)));
 
                 GameWindow wnd = new GameWindow();
                 wnd.setVisible(true);

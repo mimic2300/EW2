@@ -19,7 +19,7 @@ public abstract class AbstractDialog extends WebDialog
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setSize(width, height);
         setModal(true);
-        setRound(6);
+        setRound(SystemCheck.isWindows() ? 6 : 0);
         setShadeWidth(SystemCheck.isWindows() ? 20 : 0);
         setIconImages(WebLookAndFeel.getImages());
         setTitle(title);

@@ -23,8 +23,8 @@ public abstract class AbstractFrame extends WebFrame
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(0, 0, width, height);
-        setRound(6);
         setResizable(resizable);
+        setRound(SystemCheck.isWindows() ? 6 : 0);
         setShadeWidth(SystemCheck.isWindows() ? 20 : 0);
         setLocationRelativeTo(this);
         setIconImages(WebLookAndFeel.getImages());
