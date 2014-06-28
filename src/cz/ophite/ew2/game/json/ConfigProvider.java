@@ -1,5 +1,6 @@
 package cz.ophite.ew2.game.json;
 
+import cz.ophite.ew2.Game;
 import cz.ophite.lib.json.Json;
 
 public final class ConfigProvider
@@ -17,7 +18,8 @@ public final class ConfigProvider
     {
         if (instance == null) {
             instance = new ConfigProvider();
-            instance.gameConfigJson = Json.smartLoadSingle(ConfigProvider.class, CONFIG_FILE, ConfigJson.class);
+            instance.gameConfigJson = Json.smartLoadSingle(Game.class, CONFIG_FILE, ConfigJson.class);
+            System.out.printf("Load (%s) = %s%n", ConfigJson.class.getSimpleName(), instance.gameConfigJson != null);
         }
         return instance;
     }
