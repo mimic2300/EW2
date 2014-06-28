@@ -3,27 +3,32 @@
     {
       "code": "NEWBIE",
       "name": "Newbie",
-      "description": "For llamas without a hint of gaming experience."
+      "description": "For llamas without a hint of gaming experience.",
+      "energyBoostPerTick": 2.0
     },
     {
       "code": "EASY",
       "name": "Easy",
-      "description": "For kids who playing Hello Kitty."
+      "description": "For kids who playing Hello Kitty.",
+      "energyBoostPerTick": 1.5
     },
     {
       "code": "NORMAL",
       "name": "Normal",
-      "description": "Just a classic."
+      "description": "Just a classic.",
+      "energyBoostPerTick": 1.0
     },
     {
       "code": "HARD",
       "name": "Hard",
-      "description": "For experienced administrators energy."
+      "description": "For experienced administrators energy.",
+      "energyBoostPerTick": 0.7
     },
     {
       "code": "BRUTAL",
       "name": "Brutal",
-      "description": "The ruler of atoms."
+      "description": "The ruler of atoms.",
+      "energyBoostPerTick": 0.35
     }
   ]
 }

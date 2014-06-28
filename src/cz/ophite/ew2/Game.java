@@ -4,7 +4,6 @@ import java.awt.EventQueue;
 import java.awt.Font;
 
 import javax.swing.UIManager;
-import javax.swing.plaf.FontUIResource;
 
 import com.alee.laf.WebLookAndFeel;
 
@@ -27,7 +26,7 @@ public final class Game
                 ResourceProvider.getInstance();
                 DifficultyProvider.getInstance();
 
-                GuiUtil.setUIFont(new FontUIResource(new Font(Font.SANS_SERIF, Font.PLAIN, 11)));
+                GuiUtil.setUIFont(new Font(Font.SANS_SERIF, Font.PLAIN, 11));
 
                 GameWindow wnd = new GameWindow();
                 wnd.setVisible(true);

@@ -13,6 +13,9 @@ public final class Difficulty
     @SerializedName("description")
     private String description;
 
+    @SerializedName("energyBoostPerTick")
+    private Float energyBoostPerTick;
+
     public String getCode()
     {
         return code;
@@ -26,6 +29,11 @@ public final class Difficulty
     public String getDescription()
     {
         return description;
+    }
+
+    public Float getEnergyBoostPerTick()
+    {
+        return energyBoostPerTick;
     }
 
     @Override
