@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Toolkit;
+import java.awt.Window;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.util.Observable;
@@ -19,24 +20,17 @@ import cz.ophite.ew2.ui.game.NewGameDialog;
 @SuppressWarnings("serial")
 public class NavigationPane extends AbstractPane implements Observer
 {
-    private GameBoard gameBoard;
-
     private WebButton btnNewGame;
 
-    public NavigationPane(Component owner, GameBoard gameBoard)
+    public NavigationPane(Window gameWindow, Component owner, GameBoard gameBoard)
     {
-        super(owner);
-        this.gameBoard = gameBoard;
+        super(gameWindow, owner);
         gameBoard.addObserver(this);
-    }
 
-    @Override
-    protected void initComponents()
-    {
         setLayout(new FlowLayout());
 
         btnNewGame = addButton("New Game", e -> {
-            NewGameDialog dlg = new NewGameDialog(this, gameBoard);
+            NewGameDialog dlg = new NewGameDialog(gameWindow, gameBoard);
             dlg.setVisible(true);
         });
 

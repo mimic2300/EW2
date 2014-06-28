@@ -11,6 +11,24 @@
       "name": "Coal-fired power plant",
       "price": 32000,
       "income": 0.11
+    },
+    {
+      "code": "TEST_A",
+      "name": "Test A",
+      "price": 5800,
+      "income": 0.154
+    },
+    {
+      "code": "TEST_B",
+      "name": "Test B",
+      "price": 675000,
+      "income": 0.6
+    },
+    {
+      "code": "TEST_C",
+      "name": "Test C",
+      "price": 99786,
+      "income": 0.777
     }
   ]
 }

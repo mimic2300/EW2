@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Window;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,16 +39,12 @@ public class NewGameDialog extends AbstractDialog
     private WebTextField fieldPlayer;
     private WebButton btnPlay;
 
-    public NewGameDialog(Component owner, GameBoard gameBoard)
+    public NewGameDialog(Window gameWindow, GameBoard gameBoard)
     {
-        super(owner, "New Game", 400, 260);
+        super(gameWindow, "New Game", 400, 260);
         this.gameBoard = gameBoard;
         selectedDifficulty = gameBoard.getDifficulty();
-    }
 
-    @Override
-    protected void initComponents()
-    {
         comPane = new WebComponentPanel();
         comPane.setElementMargin(5);
         comPane.setReorderingAllowed(false);
@@ -56,7 +53,7 @@ public class NewGameDialog extends AbstractDialog
 
         createPlayerName();
         createDifficulty();
-        createSaveButton();
+        createButtons();
 
         add(comPane, BorderLayout.CENTER);
 
@@ -73,31 +70,6 @@ public class NewGameDialog extends AbstractDialog
         gameBoard.setGameState(GameState.PLAY);
 
         dispose();
-    }
-
-    private void addElement(Component... components)
-    {
-        comPane.addElement(new GroupPanel(10, components));
-    }
-
-    private void addLabelTooltip(Component com, String text)
-    {
-        TooltipManager.setTooltip(com, text, TooltipWay.right, 250);
-    }
-
-    private void addDifficultyTooltip(Component com, String text)
-    {
-        TooltipManager.setTooltip(com, text, TooltipWay.down, 250);
-    }
-
-    private void addButtonTooltip(Component com, String text)
-    {
-        TooltipManager.setTooltip(com, text, TooltipWay.up, 250);
-    }
-
-    private void tryEnablePlayButton()
-    {
-        btnPlay.setEnabled(fieldPlayer.getText().length() > 0);
     }
 
     private void createPlayerName()
@@ -142,7 +114,7 @@ public class NewGameDialog extends AbstractDialog
         addElement(lbDifficulty, textGroup);
     }
 
-    private void createSaveButton()
+    private void createButtons()
     {
         JPanel pane = new JPanel();
         pane.setLayout(new FlowLayout());
@@ -169,5 +141,30 @@ public class NewGameDialog extends AbstractDialog
         pane.add(btnClose);
 
         comPane.addElement(pane);
+    }
+
+    private void tryEnablePlayButton()
+    {
+        btnPlay.setEnabled(fieldPlayer.getText().length() > 0);
+    }
+
+    private void addElement(Component... components)
+    {
+        comPane.addElement(new GroupPanel(10, components));
+    }
+
+    private void addLabelTooltip(Component com, String text)
+    {
+        TooltipManager.setTooltip(com, text, TooltipWay.right, 250);
+    }
+
+    private void addDifficultyTooltip(Component com, String text)
+    {
+        TooltipManager.setTooltip(com, text, TooltipWay.down, 250);
+    }
+
+    private void addButtonTooltip(Component com, String text)
+    {
+        TooltipManager.setTooltip(com, text, TooltipWay.up, 250);
     }
 }

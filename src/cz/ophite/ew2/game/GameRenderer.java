@@ -1,9 +1,9 @@
 package cz.ophite.ew2.game;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Window;
 import java.awt.geom.AffineTransform;
 
 import cz.ophite.ew2.ui.ScenePane;
@@ -16,9 +16,9 @@ public class GameRenderer extends ScenePane
     private float theta = 0;
     private boolean thetaAddition = true;
 
-    public GameRenderer(Component owner, GameBoard gameBoard)
+    public GameRenderer(Window gameWindow, GameBoard gameBoard)
     {
-        super(owner);
+        super(gameWindow, gameWindow);
         this.gameBoard = gameBoard;
     }
 

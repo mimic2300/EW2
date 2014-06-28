@@ -69,22 +69,22 @@ public final class GameWindow extends AbstractFrame implements Observer
             }
         });
 
-        navigationPane = new NavigationPane(this, gameBoard);
+        navigationPane = new NavigationPane(this, this, gameBoard);
         navigationPane.setBackground(getBackground());
         navigationPane.setPreferredSize(new Dimension(103, 0));
         getContent().add(navigationPane, BorderLayout.WEST);
 
-        rightMenuPane = new RightMenuPane(this, gameBoard);
+        rightMenuPane = new RightMenuPane(this, this, gameBoard);
         rightMenuPane.setBackground(getBackground());
         rightMenuPane.setPreferredSize(new Dimension(103, 0));
         getContent().add(rightMenuPane, BorderLayout.EAST);
 
-        headerPane = new HeaderPane(this);
+        headerPane = new HeaderPane(this, this);
         headerPane.setBackground(getBackground());
         headerPane.setPreferredSize(new Dimension(0, 5));
         getContent().add(headerPane, BorderLayout.NORTH);
 
-        footerPane = new FooterPane(this);
+        footerPane = new FooterPane(this, this);
         footerPane.setBackground(getBackground());
         getContent().add(footerPane, BorderLayout.SOUTH);
 

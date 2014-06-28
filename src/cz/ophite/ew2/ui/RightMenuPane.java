@@ -3,6 +3,7 @@ package cz.ophite.ew2.ui;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Window;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -27,40 +28,33 @@ public class RightMenuPane extends AbstractPane implements Observer
 {
     private static final ConfigJson CONF = ConfigProvider.getInstance().getGameConfig();
 
-    private GameBoard gameBoard;
-
     private AbstractButton btnOpenShop;
     private AbstractButton btnGiveUp;
 
     private ShopDialog shopDialog;
 
-    public RightMenuPane(Component owner, GameBoard gameBoard)
+    public RightMenuPane(Window gameWindow, Component owner, GameBoard gameBoard)
     {
-        super(owner);
-        this.gameBoard = gameBoard;
+        super(gameWindow, owner);
         gameBoard.addObserver(this);
 
-        shopDialog = new ShopDialog(this, gameBoard.getPlayer());
-        calculateShopPosition();
-        shopDialog.setVisible(true);// HACK FOR TESTING !!!
-    }
-
-    @Override
-    protected void initComponents()
-    {
         setLayout(new FlowLayout());
 
         btnOpenShop = addButton("Open shop", true, e -> {
-            shopDialog.setVisible(btnOpenShop.isSelected());
+            shopDialog.setVisibleEx(btnOpenShop.isSelected());
         });
 
         btnGiveUp = addButton("Give Up", false, e -> {
             if (giveUpApproved()) {
                 gameBoard.setGameState(GameState.MENU);
-                shopDialog.setVisible(false);
+                shopDialog.setVisibleEx(false);
                 btnOpenShop.setSelected(shopDialog.isVisible());
             }
         });
+
+        shopDialog = new ShopDialog(gameWindow, gameBoard.getPlayer());
+        calculateShopPosition();
+        shopDialog.setVisibleEx(true); // HACK FOR TESTING !!!
     }
 
     private AbstractButton addButton(String name, boolean toggle, ActionListener action)

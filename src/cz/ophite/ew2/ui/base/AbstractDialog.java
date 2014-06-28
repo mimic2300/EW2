@@ -1,6 +1,7 @@
 package cz.ophite.ew2.ui.base;
 
-import java.awt.Component;
+import java.awt.Frame;
+import java.awt.Window;
 
 import javax.swing.WindowConstants;
 
@@ -12,9 +13,13 @@ import cz.ophite.ew2.util.SystemCheck;
 @SuppressWarnings("serial")
 public abstract class AbstractDialog extends WebDialog
 {
-    public AbstractDialog(Component owner, String title, int width, int height)
+    private Window gameWindow;
+    private boolean parentVisible = false;
+
+    public AbstractDialog(Window gameWindow, String title, int width, int height)
     {
-        super(owner);
+        super(gameWindow);
+        this.gameWindow = gameWindow;
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setSize(width, height);
@@ -25,8 +30,34 @@ public abstract class AbstractDialog extends WebDialog
         setTitle(title);
         setLocationRelativeTo(getOwner());
 
-        initComponents();
+        addGameWindowChangeState();
     }
 
-    protected abstract void initComponents();
+    public Window getGameWindow()
+    {
+        return gameWindow;
+    }
+
+    public boolean getParentVisible()
+    {
+        return parentVisible;
+    }
+
+    public void setVisibleEx(boolean value)
+    {
+        super.setVisible(value);
+        parentVisible = value;
+    }
+
+    private void addGameWindowChangeState()
+    {
+        gameWindow.addWindowStateListener(e -> {
+            if (e.getNewState() == Frame.ICONIFIED && parentVisible && !isModal()) {
+                setVisible(false);
+            }
+            if (e.getNewState() == Frame.NORMAL && parentVisible && !isModal()) {
+                setVisible(true);
+            }
+        });
+    }
 }

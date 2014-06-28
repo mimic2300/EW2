@@ -19,6 +19,7 @@ public class ShopModel extends AbstractTableModel
     private ShopModelListener modelListener;
 
     private int totalPrice = 0;
+    private float totalIncome = 0;
 
     @Override
     public int getColumnCount()
@@ -67,11 +68,15 @@ public class ShopModel extends AbstractTableModel
 
         if (Boolean.TRUE.equals(value)) {
             totalPrice += res.getPrice();
+            totalIncome += res.getIncome();
         } else {
             totalPrice -= res.getPrice();
+            totalIncome -= res.getIncome();
         }
+        totalIncome = Float.valueOf(String.format("%.3f", totalIncome));
+
         if (modelListener != null) {
-            modelListener.checkResource(res, totalPrice);
+            modelListener.checkResource(res, totalPrice, totalIncome);
         }
     }
 

@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Window;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
@@ -25,14 +26,10 @@ public abstract class ScenePane extends AbstractPane
     private Timer timer;
     private BufferedImage backBuffer;
 
-    public ScenePane(Component owner)
+    public ScenePane(Window gameWindow, Component owner)
     {
-        super(owner);
-    }
+        super(gameWindow, owner);
 
-    @Override
-    protected void initComponents()
-    {
         setIgnoreRepaint(true);
         setFocusable(false);
         setRequestFocusEnabled(false);

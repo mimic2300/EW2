@@ -5,7 +5,10 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Window;
 
+import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -25,18 +28,14 @@ public class ShopDialog extends AbstractDialog
     private Player player;
 
     private JLabel lbTotalPrice;
+    private JLabel lbTotalIncome;
     private WebButton btnBuy;
 
-    public ShopDialog(Component owner, Player player)
+    public ShopDialog(Window gameWindow, Player player)
     {
-        super(owner, "Energy sources shop", 400, 260);
+        super(gameWindow, "Energy sources shop", 400, 260);
         this.player = player;
-        checkTotalPrice(0);
-    }
 
-    @Override
-    protected void initComponents()
-    {
         setModal(false);
         setIconImage(null);
         setShowCloseButton(false);
@@ -44,8 +43,9 @@ public class ShopDialog extends AbstractDialog
         setLayout(new BorderLayout());
 
         ShopModel shopModel = new ShopModel();
-        shopModel.setModelListener((resource, totalPrice) -> {
+        shopModel.setModelListener((resource, totalPrice, totalIncome) -> {
             checkTotalPrice(totalPrice);
+            lbTotalIncome.setText(String.valueOf(totalIncome));
         });
 
         WebTable table = new WebTable(shopModel);
@@ -58,24 +58,49 @@ public class ShopDialog extends AbstractDialog
         add(scrollPane);
 
         JPanel pane = new JPanel();
+        pane.setPreferredSize(new Dimension(0, 45));
         pane.setLayout(new BorderLayout());
         {
-            JPanel pricePane = new JPanel();
-            pricePane.setLayout(new FlowLayout());
+            JPanel statePane = new JPanel();
+            statePane.setPreferredSize(new Dimension(200, 0));
+            statePane.setLayout(new FlowLayout(FlowLayout.LEFT));
             {
-                JLabel lbTotalPriceText = new JLabel("Total price:");
-                pricePane.add(lbTotalPriceText);
+                JPanel pricePane = new JPanel();
+                pricePane.setLayout(new BorderLayout());
+                {
+                    JLabel lbTotalPriceText = new JLabel("Total price: ");
+                    pricePane.add(lbTotalPriceText, BorderLayout.WEST);
 
-                lbTotalPrice = new JLabel("0");
-                pricePane.add(lbTotalPrice);
+                    lbTotalPrice = new JLabel("0");
+                    lbTotalPrice.setFont(lbTotalPrice.getFont().deriveFont(Font.BOLD));
+                    pricePane.add(lbTotalPrice, BorderLayout.CENTER);
+                }
+                JPanel incomePane = new JPanel();
+                incomePane.setLayout(new BorderLayout());
+                {
+                    JLabel lbTotalIncomeText = new JLabel("Total income: ");
+                    incomePane.add(lbTotalIncomeText, BorderLayout.WEST);
+
+                    lbTotalIncome = new JLabel("0");
+                    lbTotalIncome.setForeground(new Color(50, 150, 150));
+                    lbTotalIncome.setFont(lbTotalIncome.getFont().deriveFont(Font.BOLD));
+                    incomePane.add(lbTotalIncome, BorderLayout.CENTER);
+                }
+                statePane.add(pricePane);
+                statePane.add(Box.createHorizontalStrut(50));
+                statePane.add(incomePane);
+                statePane.add(Box.createHorizontalStrut(50));
             }
-            pane.add(pricePane, BorderLayout.WEST);
+            pane.add(statePane, BorderLayout.WEST);
 
             btnBuy = new WebButton("Buy", e -> buy());
             btnBuy.setPreferredSize(new Dimension(80, 28));
+            btnBuy.setBoldFont();
             pane.add(btnBuy, BorderLayout.EAST);
         }
         add(pane, BorderLayout.SOUTH);
+
+        checkTotalPrice(0);
     }
 
     private void buy()
