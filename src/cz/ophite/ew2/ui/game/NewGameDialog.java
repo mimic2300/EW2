@@ -19,6 +19,8 @@ import com.alee.laf.text.WebTextField;
 import com.alee.managers.tooltip.TooltipManager;
 import com.alee.managers.tooltip.TooltipWay;
 
+import cz.ophite.ew2.game.GameBoard;
+import cz.ophite.ew2.game.GameState;
 import cz.ophite.ew2.game.Player;
 import cz.ophite.ew2.game.json.Difficulty;
 import cz.ophite.ew2.game.json.DifficultyProvider;
@@ -30,16 +32,16 @@ public class NewGameDialog extends AbstractDialog
     private static final DifficultyProvider DP = DifficultyProvider.getInstance();
 
     private WebComponentPanel comPane;
-    private Player player;
+    private GameBoard gameBoard;
 
     private WebTextField fieldPlayer;
     private Difficulty selectedDifficulty;
 
-    public NewGameDialog(Component owner, Player player)
+    public NewGameDialog(Component owner, GameBoard gameBoard)
     {
         super(owner, "New Game", 400, 260);
-        this.player = player;
-        selectedDifficulty = player.getDifficulty();
+        this.gameBoard = gameBoard;
+        selectedDifficulty = gameBoard.getPlayer().getDifficulty();
         initComponents();
     }
 
@@ -64,7 +66,7 @@ public class NewGameDialog extends AbstractDialog
         comPane.addElement(new GroupPanel(10, components));
     }
 
-    private void addTooltip(Component com, String text)
+    private void addLabelTooltip(Component com, String text)
     {
         TooltipManager.setTooltip(com, text, TooltipWay.right, 250);
     }
@@ -74,10 +76,15 @@ public class NewGameDialog extends AbstractDialog
         TooltipManager.setTooltip(com, text, TooltipWay.down, 250);
     }
 
+    private void addButtonTooltip(Component com, String text)
+    {
+        TooltipManager.setTooltip(com, text, TooltipWay.up, 250);
+    }
+
     private void createPlayerName()
     {
         WebLabel lbName = new WebLabel("Player:");
-        addTooltip(lbName, "Player name");
+        addLabelTooltip(lbName, "Player name");
 
         fieldPlayer = new WebTextField();
         fieldPlayer.setInputPrompt("set your in-game name...");
@@ -89,7 +96,7 @@ public class NewGameDialog extends AbstractDialog
     private void createDifficulty()
     {
         WebLabel lbDifficulty = new WebLabel("Difficulty:");
-        addTooltip(lbDifficulty, "Game difficulty");
+        addLabelTooltip(lbDifficulty, "Game difficulty");
 
         List<WebToggleButton> toggles = new ArrayList<WebToggleButton>();
 
@@ -121,9 +128,11 @@ public class NewGameDialog extends AbstractDialog
         addElement(spacePane);
 
         WebButton btnPlay = new WebButton("Play", e -> {
+            Player player = gameBoard.getPlayer();
             player.clear();
             player.setName(fieldPlayer.getText());
             player.setDifficulty(selectedDifficulty);
+            gameBoard.setGameState(GameState.PLAY);
             dispose();
         });
         WebButton btnClose = new WebButton("Close", e -> {
@@ -132,8 +141,8 @@ public class NewGameDialog extends AbstractDialog
         btnPlay.setPreferredSize(new Dimension(100, 28));
         btnClose.setPreferredSize(new Dimension(50, 28));
 
-        addTooltip(btnPlay, "Enjoy the game ;)");
-        addTooltip(btnClose, "Why? :(");
+        addButtonTooltip(btnPlay, "Enjoy the game ;)");
+        addButtonTooltip(btnClose, "Hmm...");
 
         pane.add(btnPlay);
         pane.add(btnClose);

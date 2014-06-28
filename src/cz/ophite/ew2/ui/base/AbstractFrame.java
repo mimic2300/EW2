@@ -3,8 +3,8 @@ package cz.ophite.ew2.ui.base;
 import java.awt.BorderLayout;
 import java.awt.Frame;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
 import com.alee.laf.WebLookAndFeel;
@@ -21,7 +21,7 @@ public abstract class AbstractFrame extends WebFrame
     {
         super(title);
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         setBounds(0, 0, width, height);
         setResizable(resizable);
         setRound(SystemCheck.isWindows() ? 6 : 0);

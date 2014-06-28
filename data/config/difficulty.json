@@ -15,7 +15,7 @@
     {
       "code": "NORMAL",
       "name": "Normal",
-      "description": "Just a classic.",
+      "description": "For a normal players.",
       "energyBoostPerTick": 1.0
     },
     {
@@ -27,8 +27,14 @@
     {
       "code": "BRUTAL",
       "name": "Brutal",
-      "description": "The ruler of atoms.",
-      "energyBoostPerTick": 0.35
+      "description": "For ruler of atomic particles.",
+      "energyBoostPerTick": 0.45
+    },
+    {
+      "code": "NIGHTMARE",
+      "name": "Nightmare",
+      "description": "For gamers waiting for disaster.",
+      "energyBoostPerTick": 0.2
     }
   ]
 }

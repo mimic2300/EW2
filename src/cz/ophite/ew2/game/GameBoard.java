@@ -1,11 +1,10 @@
 package cz.ophite.ew2.game;
 
-import cz.ophite.ew2.game.json.ResourceProvider;
+import java.util.Observable;
 
-public final class GameBoard
+public final class GameBoard extends Observable
 {
-    private static final ResourceProvider RP = ResourceProvider.getInstance();
-
+    private GameState gameState;
     private Player player;
 
     public GameBoard()
@@ -16,5 +15,20 @@ public final class GameBoard
     public Player getPlayer()
     {
         return player;
+    }
+
+    public GameState getGameState()
+    {
+        return gameState;
+    }
+
+    public void setGameState(GameState gameState)
+    {
+        if (this.gameState != gameState) {
+            this.gameState = gameState;
+
+            setChanged();
+            notifyObservers(this);
+        }
     }
 }
