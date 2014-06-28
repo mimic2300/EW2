@@ -1,14 +1,8 @@
 package cz.ophite.ew2.game;
 
-import cz.ophite.ew2.game.json.Difficulty;
-import cz.ophite.ew2.game.json.DifficultyProvider;
-
 public final class Player
 {
-    private static final DifficultyProvider DP = DifficultyProvider.getInstance();
-
     private String name;
-    private Difficulty difficulty;
 
     public Player()
     {
@@ -18,7 +12,6 @@ public final class Player
     public void clear()
     {
         name = null;
-        difficulty = DP.getDefaultDifficulty();
     }
 
     public String getName()
@@ -29,15 +22,5 @@ public final class Player
     public void setName(String name)
     {
         this.name = name;
-    }
-
-    public Difficulty getDifficulty()
-    {
-        return difficulty;
-    }
-
-    public void setDifficulty(Difficulty difficulty)
-    {
-        this.difficulty = difficulty;
     }
 }

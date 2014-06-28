@@ -20,6 +20,8 @@ import cz.ophite.ew2.ui.base.AbstractPane;
 @SuppressWarnings("serial")
 public abstract class ScenePane extends AbstractPane
 {
+    private static final int UPDATE_DELAY = 10; // ms
+
     private Timer timer;
     private BufferedImage backBuffer;
 
@@ -44,14 +46,14 @@ public abstract class ScenePane extends AbstractPane
                 backBuffer = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
 
                 timer = new Timer();
-                timer.schedule(new GameLoop(), 0, 10);
+                timer.schedule(new GameLoop(), 0, UPDATE_DELAY);
 
                 super.componentShown(e);
             }
         });
     }
 
-    public void saveScene(String fileName)
+    public void exportToPng(String fileName)
     {
         if (backBuffer != null) {
             try {

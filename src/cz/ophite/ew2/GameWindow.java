@@ -72,7 +72,7 @@ public final class GameWindow extends AbstractFrame implements Observer
         navigationPane.setPreferredSize(new Dimension(100, 0));
         getContent().add(navigationPane, BorderLayout.WEST);
 
-        shopPane = new ShopPane(this);
+        shopPane = new ShopPane(this, gameBoard);
         shopPane.setBackground(getBackground());
         shopPane.setPreferredSize(new Dimension(100, 0));
         getContent().add(shopPane, BorderLayout.EAST);
@@ -91,15 +91,5 @@ public final class GameWindow extends AbstractFrame implements Observer
     public void update(Observable o, Object arg)
     {
         GameBoard board = (GameBoard) arg;
-
-        switch (board.getGameState()) {
-            case MENU:
-                shopPane.setVisible(false);
-                break;
-
-            case PLAY:
-                shopPane.setVisible(true);
-                break;
-        }
     }
 }

@@ -31,17 +31,18 @@ public class NewGameDialog extends AbstractDialog
 {
     private static final DifficultyProvider DP = DifficultyProvider.getInstance();
 
-    private WebComponentPanel comPane;
     private GameBoard gameBoard;
-
-    private WebTextField fieldPlayer;
     private Difficulty selectedDifficulty;
+
+    private WebComponentPanel comPane;
+    private WebTextField fieldPlayer;
+    private WebButton btnPlay;
 
     public NewGameDialog(Component owner, GameBoard gameBoard)
     {
         super(owner, "New Game", 400, 260);
         this.gameBoard = gameBoard;
-        selectedDifficulty = gameBoard.getPlayer().getDifficulty();
+        selectedDifficulty = gameBoard.getDifficulty();
         initComponents();
     }
 
@@ -59,6 +60,20 @@ public class NewGameDialog extends AbstractDialog
         createSaveButton();
 
         add(comPane, BorderLayout.CENTER);
+
+        tryEnablePlayButton();
+    }
+
+    private void play()
+    {
+        Player player = gameBoard.getPlayer();
+        player.clear();
+        player.setName(fieldPlayer.getText());
+
+        gameBoard.setDifficulty(selectedDifficulty);
+        gameBoard.setGameState(GameState.PLAY);
+
+        dispose();
     }
 
     private void addElement(Component... components)
@@ -81,6 +96,11 @@ public class NewGameDialog extends AbstractDialog
         TooltipManager.setTooltip(com, text, TooltipWay.up, 250);
     }
 
+    private void tryEnablePlayButton()
+    {
+        btnPlay.setEnabled(fieldPlayer.getText().length() > 0);
+    }
+
     private void createPlayerName()
     {
         WebLabel lbName = new WebLabel("Player:");
@@ -89,6 +109,10 @@ public class NewGameDialog extends AbstractDialog
         fieldPlayer = new WebTextField();
         fieldPlayer.setInputPrompt("set your in-game name...");
         fieldPlayer.putClientProperty(GroupPanel.FILL_CELL, true);
+        fieldPlayer.setHideInputPromptOnFocus(false);
+        fieldPlayer.addCaretListener(e -> {
+            tryEnablePlayButton();
+        });
 
         addElement(lbName, fieldPlayer);
     }
@@ -102,6 +126,7 @@ public class NewGameDialog extends AbstractDialog
 
         for (Difficulty diff : DP.getDifficulty()) {
             WebToggleButton toggle = new WebToggleButton(diff.getName());
+
             toggle.addActionListener(e -> {
                 selectedDifficulty = DP.getByCode(((WebToggleButton) e.getSource()).getText());
             });
@@ -127,14 +152,11 @@ public class NewGameDialog extends AbstractDialog
         spacePane.setPreferredSize(new Dimension(0, 50));
         addElement(spacePane);
 
-        WebButton btnPlay = new WebButton("Play", e -> {
-            Player player = gameBoard.getPlayer();
-            player.clear();
-            player.setName(fieldPlayer.getText());
-            player.setDifficulty(selectedDifficulty);
-            gameBoard.setGameState(GameState.PLAY);
-            dispose();
+        btnPlay = new WebButton("Play", e -> {
+            play();
         });
+        btnPlay.setBoldFont();
+
         WebButton btnClose = new WebButton("Close", e -> {
             dispose();
         });
