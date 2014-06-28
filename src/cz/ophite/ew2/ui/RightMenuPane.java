@@ -23,7 +23,7 @@ import cz.ophite.ew2.ui.base.AbstractPane;
 import cz.ophite.ew2.ui.game.ShopDialog;
 
 @SuppressWarnings("serial")
-public class ShopPane extends AbstractPane implements Observer
+public class RightMenuPane extends AbstractPane implements Observer
 {
     private static final ConfigJson CONF = ConfigProvider.getInstance().getGameConfig();
 
@@ -34,7 +34,7 @@ public class ShopPane extends AbstractPane implements Observer
 
     private ShopDialog shopDialog;
 
-    public ShopPane(Component owner, GameBoard gameBoard)
+    public RightMenuPane(Component owner, GameBoard gameBoard)
     {
         super(owner);
         this.gameBoard = gameBoard;

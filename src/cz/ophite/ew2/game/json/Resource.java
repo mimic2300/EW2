@@ -13,8 +13,8 @@ public final class Resource implements Comparable<Resource>
     @SerializedName("price")
     private Integer price;
 
-    @SerializedName("energyPerTick")
-    private Float energyPerTick;
+    @SerializedName("income")
+    private Float income;
 
     public String getCode()
     {
@@ -31,9 +31,9 @@ public final class Resource implements Comparable<Resource>
         return price;
     }
 
-    public float getEnergyPerTick()
+    public float getIncome()
     {
-        return energyPerTick;
+        return income;
     }
 
     @Override

@@ -4,13 +4,13 @@
       "code": "HYDROELECTRIC_POWER_STATION",
       "name": "Hydroelectric power station",
       "price": 50000,
-      "energyPerTick": 0.05
+      "income": 0.05
     },
     {
       "code": "COALFIRED_POWER_PLANT",
       "name": "Coal-fired power plant",
       "price": 32000,
-      "energyPerTick": 0.11
+      "income": 0.11
     }
   ]
 }

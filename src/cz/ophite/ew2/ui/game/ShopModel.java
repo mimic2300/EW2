@@ -83,7 +83,7 @@ public class ShopModel extends AbstractTableModel
             List<Object> column = new ArrayList<Object>();
             column.add(res.getName());
             column.add(res.getPrice());
-            column.add(res.getEnergyPerTick());
+            column.add(res.getIncome());
             column.add(false);
             column.add(res.getCode());
 

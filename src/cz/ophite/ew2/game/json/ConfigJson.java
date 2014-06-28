@@ -22,7 +22,10 @@ public final class ConfigJson
     private Float energyRate;
 
     @SerializedName("initial_money")
-    private Integer initialMoney;
+    private Long initialMoney;
+
+    @SerializedName("initial_income")
+    private Float initialIncome;
 
     public String getGameTitle()
     {
@@ -54,8 +57,13 @@ public final class ConfigJson
         return energyRate;
     }
 
-    public Integer getInitialMoney()
+    public Long getInitialMoney()
     {
         return initialMoney;
+    }
+
+    public Float getInitialIncome()
+    {
+        return initialIncome;
     }
 }

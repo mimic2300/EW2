@@ -19,7 +19,7 @@ import cz.ophite.ew2.game.json.ConfigProvider;
 import cz.ophite.ew2.ui.FooterPane;
 import cz.ophite.ew2.ui.HeaderPane;
 import cz.ophite.ew2.ui.NavigationPane;
-import cz.ophite.ew2.ui.ShopPane;
+import cz.ophite.ew2.ui.RightMenuPane;
 import cz.ophite.ew2.ui.base.AbstractFrame;
 
 @SuppressWarnings("serial")
@@ -28,7 +28,7 @@ public final class GameWindow extends AbstractFrame implements Observer
     private static final ConfigJson CONF = ConfigProvider.getInstance().getGameConfig();
 
     private NavigationPane navigationPane;
-    private ShopPane shopPane;
+    private RightMenuPane rightMenuPane;
     private FooterPane footerPane;
     private HeaderPane headerPane;
     private GameRenderer gameRenderer;
@@ -74,10 +74,10 @@ public final class GameWindow extends AbstractFrame implements Observer
         navigationPane.setPreferredSize(new Dimension(103, 0));
         getContent().add(navigationPane, BorderLayout.WEST);
 
-        shopPane = new ShopPane(this, gameBoard);
-        shopPane.setBackground(getBackground());
-        shopPane.setPreferredSize(new Dimension(103, 0));
-        getContent().add(shopPane, BorderLayout.EAST);
+        rightMenuPane = new RightMenuPane(this, gameBoard);
+        rightMenuPane.setBackground(getBackground());
+        rightMenuPane.setPreferredSize(new Dimension(103, 0));
+        getContent().add(rightMenuPane, BorderLayout.EAST);
 
         headerPane = new HeaderPane(this);
         headerPane.setBackground(getBackground());
