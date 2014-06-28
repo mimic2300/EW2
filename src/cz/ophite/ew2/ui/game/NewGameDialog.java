@@ -2,6 +2,8 @@ package cz.ophite.ew2.ui.game;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,14 +16,19 @@ import com.alee.laf.button.WebButton;
 import com.alee.laf.button.WebToggleButton;
 import com.alee.laf.label.WebLabel;
 import com.alee.laf.text.WebTextField;
+import com.alee.managers.tooltip.TooltipManager;
+import com.alee.managers.tooltip.TooltipWay;
 
-import cz.ophite.ew2.game.Difficulty;
 import cz.ophite.ew2.game.Player;
+import cz.ophite.ew2.game.json.Difficulty;
+import cz.ophite.ew2.game.json.DifficultyProvider;
 import cz.ophite.ew2.ui.base.AbstractDialog;
 
 @SuppressWarnings("serial")
 public class NewGameDialog extends AbstractDialog
 {
+    private static final DifficultyProvider DP = DifficultyProvider.getInstance();
+
     private WebComponentPanel comPane;
     private Player player;
 
@@ -30,7 +37,7 @@ public class NewGameDialog extends AbstractDialog
 
     public NewGameDialog(Component owner, Player player)
     {
-        super(owner, "New Game", 400, 300);
+        super(owner, "New Game", 400, 260);
         this.player = player;
         selectedDifficulty = player.getDifficulty();
         initComponents();
@@ -40,8 +47,10 @@ public class NewGameDialog extends AbstractDialog
     protected void initComponents()
     {
         comPane = new WebComponentPanel();
-        comPane.setElementMargin(10);
-        comPane.setReorderingAllowed(true);
+        comPane.setElementMargin(5);
+        comPane.setReorderingAllowed(false);
+        comPane.setShowReorderGrippers(false);
+        comPane.setEnabled(false);
 
         createPlayerName();
         createDifficulty();
@@ -55,11 +64,23 @@ public class NewGameDialog extends AbstractDialog
         comPane.addElement(new GroupPanel(10, components));
     }
 
+    private void addTooltip(Component com, String text)
+    {
+        TooltipManager.setTooltip(com, text, TooltipWay.right, 250);
+    }
+
+    private void addDifficultyTooltip(Component com, String text)
+    {
+        TooltipManager.setTooltip(com, text, TooltipWay.down, 250);
+    }
+
     private void createPlayerName()
     {
         WebLabel lbName = new WebLabel("Player:");
+        addTooltip(lbName, "Player name");
+
         fieldPlayer = new WebTextField();
-        fieldPlayer.setInputPrompt("player name...");
+        fieldPlayer.setInputPrompt("set your in-game name...");
         fieldPlayer.putClientProperty(GroupPanel.FILL_CELL, true);
 
         addElement(lbName, fieldPlayer);
@@ -68,17 +89,20 @@ public class NewGameDialog extends AbstractDialog
     private void createDifficulty()
     {
         WebLabel lbDifficulty = new WebLabel("Difficulty:");
+        addTooltip(lbDifficulty, "Game difficulty");
+
         List<WebToggleButton> toggles = new ArrayList<WebToggleButton>();
 
-        for (Difficulty diff : Difficulty.values()) {
+        for (Difficulty diff : DP.getDifficulty()) {
             WebToggleButton toggle = new WebToggleButton(diff.getName());
             toggle.addActionListener(e -> {
-                selectedDifficulty = Difficulty.getByName(((WebToggleButton) e.getSource()).getText());
+                selectedDifficulty = DP.getByCode(((WebToggleButton) e.getSource()).getText());
             });
 
-            if (diff.isInitial()) {
+            if (DP.isDefaultDifficulty(diff)) {
                 toggle.setSelected(true);
             }
+            addDifficultyTooltip(toggle, diff.getDescription());
             toggles.add(toggle);
         }
         WebButtonGroup textGroup = new WebButtonGroup(true, toggles.toArray(new WebToggleButton[] {}));
@@ -90,14 +114,29 @@ public class NewGameDialog extends AbstractDialog
     private void createSaveButton()
     {
         JPanel pane = new JPanel();
-        pane.setLayout(new BorderLayout());
-        WebButton btnSave = new WebButton("Play", e -> {
+        pane.setLayout(new FlowLayout());
+
+        JPanel spacePane = new JPanel();
+        spacePane.setPreferredSize(new Dimension(0, 50));
+        addElement(spacePane);
+
+        WebButton btnPlay = new WebButton("Play", e -> {
             player.clear();
             player.setName(fieldPlayer.getText());
             player.setDifficulty(selectedDifficulty);
             dispose();
         });
-        pane.add(btnSave, BorderLayout.EAST);
+        WebButton btnClose = new WebButton("Close", e -> {
+            dispose();
+        });
+        btnPlay.setPreferredSize(new Dimension(100, 28));
+        btnClose.setPreferredSize(new Dimension(50, 28));
+
+        addTooltip(btnPlay, "Enjoy the game ;)");
+        addTooltip(btnClose, "Why? :(");
+
+        pane.add(btnPlay);
+        pane.add(btnClose);
 
         comPane.addElement(pane);
     }

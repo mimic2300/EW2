@@ -7,6 +7,7 @@ import javax.swing.UIManager;
 import com.alee.laf.WebLookAndFeel;
 
 import cz.ophite.ew2.game.json.ConfigProvider;
+import cz.ophite.ew2.game.json.DifficultyProvider;
 import cz.ophite.ew2.game.json.ResourceProvider;
 
 public final class Game
@@ -21,6 +22,7 @@ public final class Game
 
                 ConfigProvider.getInstance();
                 ResourceProvider.getInstance();
+                DifficultyProvider.getInstance();
 
                 GameWindow wnd = new GameWindow();
                 wnd.setVisible(true);

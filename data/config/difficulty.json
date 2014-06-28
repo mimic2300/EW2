@@ -1,0 +1,29 @@
+{
+  "difficulty": [
+    {
+      "code": "NEWBIE",
+      "name": "Newbie",
+      "description": "For llamas without a hint of gaming experience."
+    },
+    {
+      "code": "EASY",
+      "name": "Easy",
+      "description": "For kids who playing Hello Kitty."
+    },
+    {
+      "code": "NORMAL",
+      "name": "Normal",
+      "description": "Just a classic."
+    },
+    {
+      "code": "HARD",
+      "name": "Hard",
+      "description": "For experienced administrators energy."
+    },
+    {
+      "code": "BRUTAL",
+      "name": "Brutal",
+      "description": "The ruler of atoms."
+    }
+  ]
+}
