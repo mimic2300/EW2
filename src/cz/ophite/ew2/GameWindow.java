@@ -17,6 +17,7 @@ import cz.ophite.ew2.game.GameState;
 import cz.ophite.ew2.game.json.ConfigJson;
 import cz.ophite.ew2.game.json.ConfigProvider;
 import cz.ophite.ew2.ui.FooterPane;
+import cz.ophite.ew2.ui.HeaderPane;
 import cz.ophite.ew2.ui.NavigationPane;
 import cz.ophite.ew2.ui.ShopPane;
 import cz.ophite.ew2.ui.base.AbstractFrame;
@@ -29,6 +30,7 @@ public final class GameWindow extends AbstractFrame implements Observer
     private NavigationPane navigationPane;
     private ShopPane shopPane;
     private FooterPane footerPane;
+    private HeaderPane headerPane;
     private GameRenderer gameRenderer;
 
     private GameBoard gameBoard;
@@ -59,23 +61,28 @@ public final class GameWindow extends AbstractFrame implements Observer
                             JOptionPane.QUESTION_MESSAGE);
 
                     if (result == JOptionPane.YES_OPTION) {
-                        dispose();
+                        System.exit(0);
                     }
                 } else {
-                    dispose();
+                    System.exit(0);
                 }
             }
         });
 
         navigationPane = new NavigationPane(this, gameBoard);
         navigationPane.setBackground(getBackground());
-        navigationPane.setPreferredSize(new Dimension(100, 0));
+        navigationPane.setPreferredSize(new Dimension(103, 0));
         getContent().add(navigationPane, BorderLayout.WEST);
 
         shopPane = new ShopPane(this, gameBoard);
         shopPane.setBackground(getBackground());
-        shopPane.setPreferredSize(new Dimension(100, 0));
+        shopPane.setPreferredSize(new Dimension(103, 0));
         getContent().add(shopPane, BorderLayout.EAST);
+
+        headerPane = new HeaderPane(this);
+        headerPane.setBackground(getBackground());
+        headerPane.setPreferredSize(new Dimension(0, 5));
+        getContent().add(headerPane, BorderLayout.NORTH);
 
         footerPane = new FooterPane(this);
         footerPane.setBackground(getBackground());
