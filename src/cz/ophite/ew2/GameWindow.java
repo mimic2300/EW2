@@ -18,8 +18,9 @@ import cz.ophite.ew2.game.json.ConfigProvider;
 import cz.ophite.ew2.ui.FooterPane;
 import cz.ophite.ew2.ui.HeaderPane;
 import cz.ophite.ew2.ui.NavigationPane;
-import cz.ophite.ew2.ui.RightMenuPane;
+import cz.ophite.ew2.ui.GameMenuPane;
 import cz.ophite.ew2.ui.base.AbstractFrame;
+import cz.ophite.ew2.util.GuiUtil;
 
 @SuppressWarnings("serial")
 public final class GameWindow extends AbstractFrame implements GameBoardListener
@@ -27,7 +28,7 @@ public final class GameWindow extends AbstractFrame implements GameBoardListener
     private static final ConfigJson CONF = ConfigProvider.getInstance().getGameConfig();
 
     private NavigationPane navigationPane;
-    private RightMenuPane rightMenuPane;
+    private GameMenuPane gameMenuPane;
     private FooterPane footerPane;
     private HeaderPane headerPane;
     private GameRenderer gameRenderer;
@@ -37,11 +38,9 @@ public final class GameWindow extends AbstractFrame implements GameBoardListener
     public GameWindow()
     {
         super(CONF.getGameTitle(), CONF.getWindowWidth(), CONF.getWindowHeight(), false);
-    }
 
-    @Override
-    protected void initComponents()
-    {
+        setIconImage(GuiUtil.getImage(ImageConst.GAME));
+
         gameBoard = new GameBoard();
         gameBoard.gameBoardHandler.addListener(this);
 
@@ -70,13 +69,13 @@ public final class GameWindow extends AbstractFrame implements GameBoardListener
 
         navigationPane = new NavigationPane(this, this, gameBoard);
         navigationPane.setBackground(getBackground());
-        navigationPane.setPreferredSize(new Dimension(103, 0));
+        navigationPane.setPreferredSize(new Dimension(123, 0));
         getContent().add(navigationPane, BorderLayout.WEST);
 
-        rightMenuPane = new RightMenuPane(this, this, gameBoard);
-        rightMenuPane.setBackground(getBackground());
-        rightMenuPane.setPreferredSize(new Dimension(103, 0));
-        getContent().add(rightMenuPane, BorderLayout.EAST);
+        gameMenuPane = new GameMenuPane(this, this, gameBoard);
+        gameMenuPane.setBackground(getBackground());
+        gameMenuPane.setPreferredSize(new Dimension(123, 0));
+        getContent().add(gameMenuPane, BorderLayout.EAST);
 
         headerPane = new HeaderPane(this, this);
         headerPane.setBackground(getBackground());

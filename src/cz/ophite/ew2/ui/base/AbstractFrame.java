@@ -41,14 +41,10 @@ public abstract class AbstractFrame extends WebFrame
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         contentPane.setLayout(new BorderLayout(0, 0));
         setContentPane(contentPane);
-
-        initComponents();
     }
 
     protected JPanel getContent()
     {
         return contentPane;
     }
-
-    protected abstract void initComponents();
 }

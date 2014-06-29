@@ -20,12 +20,14 @@ import com.alee.laf.text.WebTextField;
 import com.alee.managers.tooltip.TooltipManager;
 import com.alee.managers.tooltip.TooltipWay;
 
+import cz.ophite.ew2.ImageConst;
 import cz.ophite.ew2.game.GameBoard;
 import cz.ophite.ew2.game.GameState;
 import cz.ophite.ew2.game.Player;
 import cz.ophite.ew2.game.json.Difficulty;
 import cz.ophite.ew2.game.json.DifficultyProvider;
 import cz.ophite.ew2.ui.base.AbstractDialog;
+import cz.ophite.ew2.util.GuiUtil;
 
 @SuppressWarnings("serial")
 public class NewGameDialog extends AbstractDialog
@@ -44,6 +46,8 @@ public class NewGameDialog extends AbstractDialog
         super(gameWindow, "New Game", 400, 260);
         this.gameBoard = gameBoard;
         selectedDifficulty = gameBoard.getDifficulty();
+
+        setIconImage(GuiUtil.getImage(ImageConst.GAME));
 
         comPane = new WebComponentPanel();
         comPane.setElementMargin(5);

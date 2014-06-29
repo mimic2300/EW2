@@ -45,6 +45,6 @@ public final class Resource implements Comparable<Resource>
     @Override
     public int compareTo(Resource o)
     {
-        return name.compareTo(o.name);
+        return price.compareTo(o.price);
     }
 }

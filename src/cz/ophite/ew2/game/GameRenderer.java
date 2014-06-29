@@ -36,11 +36,14 @@ public class GameRenderer extends ScenePane
                 drawPlayState(g2);
                 break;
         }
+        // DEBUG BEGIN
+        g2.drawString(getWidth() + "x" + getHeight(), 200, 20);
         g2.drawString(String.format("Money: %.0f (%.3f /t), (%.3f /s)",
                 player.getMoney(),
                 gameBoard.getMoneyPerTick(),
                 gameBoard.getMoneyPerSecond()), 10, getHeight() - 5);
-        g2.drawString(String.format("Income: %.3f", player.getIncome()), 330, getHeight() - 5);
+        g2.drawString(String.format("Income: %.3f", player.getIncome()), 300, getHeight() - 5);
+        // DEBUG END
     }
 
     @Override

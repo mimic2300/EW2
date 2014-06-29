@@ -4,16 +4,15 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Window;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
-import javax.swing.AbstractButton;
 import javax.swing.JOptionPane;
 
 import com.alee.laf.button.WebButton;
 import com.alee.laf.button.WebToggleButton;
 
+import cz.ophite.ew2.ImageConst;
 import cz.ophite.ew2.game.GameBoard;
 import cz.ophite.ew2.game.GameBoardListener;
 import cz.ophite.ew2.game.GameState;
@@ -21,48 +20,59 @@ import cz.ophite.ew2.game.json.ConfigJson;
 import cz.ophite.ew2.game.json.ConfigProvider;
 import cz.ophite.ew2.ui.base.AbstractPane;
 import cz.ophite.ew2.ui.game.ShopDialog;
+import cz.ophite.ew2.util.GuiUtil;
 
 @SuppressWarnings("serial")
-public class RightMenuPane extends AbstractPane implements GameBoardListener
+public class GameMenuPane extends AbstractPane implements GameBoardListener
 {
     private static final ConfigJson CONF = ConfigProvider.getInstance().getGameConfig();
 
-    private AbstractButton btnOpenShop;
-    private AbstractButton btnGiveUp;
+    private GameBoard gameBoard;
+
+    private WebToggleButton btnShop;
+    private WebButton btnGiveUp;
 
     private ShopDialog shopDialog;
 
-    public RightMenuPane(Window gameWindow, Component owner, GameBoard gameBoard)
+    public GameMenuPane(Window gameWindow, Component owner, GameBoard gameBoard)
     {
         super(gameWindow, owner);
+        this.gameBoard = gameBoard;
         gameBoard.gameBoardHandler.addListener(this);
 
         setLayout(new FlowLayout());
 
-        btnOpenShop = addButton("Open shop", true, e -> {
-            shopDialog.setVisibleEx(btnOpenShop.isSelected());
-        });
+        btnShop = new WebToggleButton();
+        btnShop.setText("Shop");
+        btnShop.setPreferredSize(new Dimension(100, 24));
+        btnShop.addActionListener(e -> onOpenShop());
+        btnShop.setIcon(GuiUtil.getIcon(ImageConst.SHOP));
+        btnShop.setShadeToggleIcon(true);
+        add(btnShop);
 
-        btnGiveUp = addButton("Give Up", false, e -> {
-            if (giveUpApproved()) {
-                gameBoard.setGameState(GameState.MENU);
-                shopDialog.setVisibleEx(false);
-                btnOpenShop.setSelected(shopDialog.isVisible());
-            }
-        });
+        btnGiveUp = new WebButton();
+        btnGiveUp.setText("Give Up");
+        btnGiveUp.setPreferredSize(new Dimension(100, 24));
+        btnGiveUp.addActionListener(e -> onGiveUp());
+        btnGiveUp.setIcon(GuiUtil.getIcon(ImageConst.GIVE_UP));
+        add(btnGiveUp);
 
         shopDialog = new ShopDialog(gameWindow, gameBoard);
         calculateShopPosition();
     }
 
-    private AbstractButton addButton(String name, boolean toggle, ActionListener action)
+    private void onOpenShop()
     {
-        AbstractButton btn = toggle ? new WebToggleButton() : new WebButton();
-        btn.setText(name);
-        btn.setPreferredSize(new Dimension(80, 24));
-        btn.addActionListener(action);
-        add(btn);
-        return btn;
+        shopDialog.setVisibleEx(btnShop.isSelected());
+    }
+
+    private void onGiveUp()
+    {
+        if (giveUpApproved()) {
+            gameBoard.setGameState(GameState.MENU);
+            shopDialog.setVisibleEx(false);
+            btnShop.setSelected(shopDialog.isVisible());
+        }
     }
 
     private boolean giveUpApproved()
@@ -93,12 +103,12 @@ public class RightMenuPane extends AbstractPane implements GameBoardListener
     {
         switch (newState) {
             case MENU:
-                btnOpenShop.setVisible(false);
+                btnShop.setVisible(false);
                 btnGiveUp.setVisible(false);
                 break;
 
             case PLAY:
-                btnOpenShop.setVisible(true);
+                btnShop.setVisible(true);
                 btnGiveUp.setVisible(true);
                 break;
         }

@@ -19,12 +19,14 @@ import com.alee.laf.button.WebButton;
 import com.alee.laf.scroll.WebScrollPane;
 import com.alee.laf.table.WebTable;
 
+import cz.ophite.ew2.ImageConst;
 import cz.ophite.ew2.game.GameBoard;
 import cz.ophite.ew2.game.GameBoardListener;
 import cz.ophite.ew2.game.GameState;
 import cz.ophite.ew2.game.Player;
 import cz.ophite.ew2.game.json.Resource;
 import cz.ophite.ew2.ui.base.AbstractDialog;
+import cz.ophite.ew2.util.GuiUtil;
 
 @SuppressWarnings("serial")
 public class ShopDialog extends AbstractDialog implements GameBoardListener
@@ -108,11 +110,13 @@ public class ShopDialog extends AbstractDialog implements GameBoardListener
                 btnSell = new WebButton("Sell", e -> sellResource());
                 btnSell.setPreferredSize(new Dimension(60, 28));
                 btnSell.setBoldFont();
+                btnSell.setIcon(GuiUtil.getIcon(ImageConst.SELL));
                 buttonsPane.add(btnSell);
 
                 btnBuy = new WebButton("Buy", e -> buyResource());
                 btnBuy.setPreferredSize(new Dimension(60, 28));
                 btnBuy.setBoldFont();
+                btnBuy.setIcon(GuiUtil.getIcon(ImageConst.BUY));
                 buttonsPane.add(btnBuy);
             }
             controlPane.add(labelsPane, BorderLayout.WEST);
