@@ -23,9 +23,17 @@ public final class ResourceProvider
             instance = new ResourceProvider();
             instance.resourceJson = Json.smartLoadSingle(Game.class, RESOURCES_FILE, ResourceJson.class);
             System.out.printf("Load (%s) = %s%n", ResourceJson.class.getSimpleName(), instance.resourceJson != null);
-            Collections.sort(instance.resourceJson.getResources());
+
+            if (instance.resourceJson != null) {
+                Collections.sort(instance.resourceJson.getResources());
+            }
         }
         return instance;
+    }
+
+    public ResourceJson getJson()
+    {
+        return resourceJson;
     }
 
     public List<Resource> getResources()

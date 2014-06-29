@@ -22,9 +22,16 @@ public final class Game
                 WebLookAndFeel.setDecorateFrames(true);
                 WebLookAndFeel.setDecorateDialogs(true);
 
-                ConfigProvider.getInstance();
-                ResourceProvider.getInstance();
-                DifficultyProvider.getInstance();
+                boolean success = true;
+
+                success &= (ConfigProvider.getInstance().getGameConfig() != null);
+                success &= (ResourceProvider.getInstance().getJson() != null);
+                success &= (DifficultyProvider.getInstance().getJson() != null);
+
+                if (!success) {
+                    System.out.println("Some settings could not be loaded! Applications will be stopped.");
+                    return;
+                }
 
                 GuiUtil.setUIFont(new Font(Font.SANS_SERIF, Font.PLAIN, 11));
 

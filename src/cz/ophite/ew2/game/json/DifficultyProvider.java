@@ -27,6 +27,11 @@ public final class DifficultyProvider
         return instance;
     }
 
+    public DifficultyJson getJson()
+    {
+        return difficultyJson;
+    }
+
     public List<Difficulty> getDifficulty()
     {
         return difficultyJson.getDifficulty();

@@ -43,7 +43,7 @@ public class ShopDialog extends AbstractDialog implements GameBoardListener
 
     public ShopDialog(Window gameWindow, GameBoard gameBoard)
     {
-        super(gameWindow, "Energy sources shop", 400, 260);
+        super(gameWindow, "Energy sources shop", 450, 260);
         gameBoard.gameBoardHandler.addListener(this);
         player = gameBoard.getPlayer();
 

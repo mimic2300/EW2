@@ -38,7 +38,7 @@ public class ShopModel extends AbstractTableModel
     {
         this.player = player;
         columnNames = new String[] { "Own", "Name", "Price", "Income", "" };
-        longestRowPattern = new Object[] { "1000/1000", getLongestRowByName(), 1000000., 1000., true, "" };
+        longestRowPattern = new Object[] { "1000 / 1000", getLongestRowByName(), 1000000., 1000., true, "" };
         checkedResource = new HashSet<Resource>();
         data = prepareData();
     }
