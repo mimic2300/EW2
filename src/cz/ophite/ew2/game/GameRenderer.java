@@ -49,11 +49,11 @@ public class GameRenderer extends ScenePane
     @Override
     public void update()
     {
-        theta += thetaAddition ? 0.2f : -0.2f;
+        theta += thetaAddition ? 0.4f : -0.2f;
         if (theta > 8) {
             thetaAddition = false;
         }
-        if (theta < -8) {
+        if (theta < 0) {
             thetaAddition = true;
         }
         gameBoard.updatePlayerMoney();
@@ -64,19 +64,21 @@ public class GameRenderer extends ScenePane
 
     private void drawMenuState(Graphics2D g2)
     {
-        Player player = gameBoard.getPlayer();
-
         // DEBUG BEGIN
         g2.setColor(Color.BLACK);
-        g2.drawString(String.valueOf(theta), 10, 20);
-        g2.drawString(String.valueOf(thetaAddition), 10, 35);
 
         Point center = getCenter();
         AffineTransform transform = g2.getTransform();
 
-        for (int i = 0, n = 0; i < 56; i++, n += 5) {
+        for (int i = 0, n = 0, r = 100; i < 56; i++, n += 5, r -= 2) {
             g2.rotate(Math.toRadians(theta), center.x, center.y);
-            g2.drawRect(center.x - 140 + n, center.y - 140 + n, 280 - n * 2, 280 - n * 2);
+            g2.drawRoundRect(center.x - 140 + n, center.y - 140 + n, 280 - n * 2, 280 - n * 2, r, r);
+        }
+        g2.setTransform(transform);
+
+        for (int i = 0, n = 0, r = 100; i < 56; i++, n += 5, r -= 2) {
+            g2.rotate(-Math.toRadians(theta), center.x, center.y);
+            g2.drawRoundRect(center.x - 140 + n, center.y - 140 + n, 280 - n * 2, 280 - n * 2, r, r);
         }
         g2.setTransform(transform);
         // DEBUG END

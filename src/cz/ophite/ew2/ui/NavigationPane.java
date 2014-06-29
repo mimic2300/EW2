@@ -8,7 +8,6 @@ import java.awt.Window;
 import java.awt.event.WindowEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Random;
 
 import com.alee.laf.button.WebButton;
 
@@ -25,8 +24,6 @@ import cz.ophite.ew2.util.GuiUtil;
 @SuppressWarnings("serial")
 public class NavigationPane extends AbstractPane implements GameBoardListener
 {
-    private final Random rand = new Random();
-
     private GameBoard gameBoard;
     private GameRenderer gameRenderer;
 

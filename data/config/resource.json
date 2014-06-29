@@ -2,38 +2,66 @@
   "resources": [
     {
       "code": "HYDROELECTRIC_POWER_STATION",
-      "name": "Hydroelectric power station",
-      "price": 50000,
+      "name": "Hydroelectric Power Plant",
+      "price": 86500,
       "income": 0.05,
-      "max_limit": 100
+      "max_limit": 50
     },
     {
-      "code": "COALFIRED_POWER_PLANT",
-      "name": "Coal-fired power plant",
-      "price": 32000,
-      "income": 0.11,
-      "max_limit": 100
+      "code": "SOLAR_POWER_PLANT",
+      "name": "Solar Power Plant",
+      "price": 42700,
+      "income": 0.025,
+      "max_limit": 50
     },
     {
-      "code": "TEST_A",
-      "name": "Test A",
-      "price": 5800,
-      "income": 0.154,
+      "code": "WIND_POWER_PLANT",
+      "name": "Wind Power Plant",
+      "price": 64100,
+      "income": 0.038,
+      "max_limit": 30
+    },
+    {
+      "code": "HEAT_PUMP",
+      "name": "Heat Pump",
+      "price": 12600,
+      "income": 0.008,
+      "max_limit": 120
+    },
+    {
+      "code": "PHOTOVOLTAIC_POWER_PLANT",
+      "name": "Photovoltaic Power Plant",
+      "price": 114200,
+      "income": 0.079,
+      "max_limit": 25
+    },
+    {
+      "code": "GEOTHERMAL_POWER_PLANT",
+      "name": "Geothermal Power Plant",
+      "price": 97500,
+      "income": 0.065,
+      "max_limit": 30
+    },
+    {
+      "code": "NUCLEAR_PLANT",
+      "name": "Nuclear Plant",
+      "price": 287300,
+      "income": 0.245,
+      "max_limit": 10
+    },
+    {
+      "code": "THE_CORE_OF_THE_SUN",
+      "name": "The Core of the Sun",
+      "price": 858600201,
+      "income": 983.5,
       "max_limit": 1
     },
     {
-      "code": "TEST_B",
-      "name": "Test B",
-      "price": 3000,
-      "income": 0.6,
-      "max_limit": 5
-    },
-    {
-      "code": "TEST_C",
-      "name": "Test C",
-      "price": 99786,
-      "income": 0.777,
-      "max_limit": 100
+      "code": "HEARTY_MEAL",
+      "name": "Hearty Meal",
+      "price": 850,
+      "income": 0.001,
+      "max_limit": 1000
     }
   ]
 }

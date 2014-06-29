@@ -20,7 +20,7 @@ public final class GameBoard
 
     public GameBoard()
     {
-        player = new Player(this);
+        player = new Player();
         difficulty = DP.getDefaultDifficulty();
     }
 

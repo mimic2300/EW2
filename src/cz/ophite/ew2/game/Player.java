@@ -17,16 +17,13 @@ public final class Player
 
     public final PlayerHandler playerHandler = new PlayerHandler();
 
-    private GameBoard gameBoard;
-
     private String name;
     private double money;
     private double income;
     private Map<String, Integer> resources = new HashMap<String, Integer>();
 
-    public Player(GameBoard gameBoard)
+    public Player()
     {
-        this.gameBoard = gameBoard;
         clear();
     }
 
