@@ -19,13 +19,13 @@ public final class ConfigJson
     private Integer windowHeight;
 
     @SerializedName("energy_rate")
-    private Float energyRate;
+    private Double energyRate;
 
     @SerializedName("initial_money")
-    private Long initialMoney;
+    private Double initialMoney;
 
     @SerializedName("initial_income")
-    private Float initialIncome;
+    private Double initialIncome;
 
     public String getGameTitle()
     {
@@ -52,17 +52,17 @@ public final class ConfigJson
         return new Dimension(windowWidth, windowHeight);
     }
 
-    public Float getEnergyRate()
+    public Double getEnergyRate()
     {
         return energyRate;
     }
 
-    public Long getInitialMoney()
+    public Double getInitialMoney()
     {
         return initialMoney;
     }
 
-    public Float getInitialIncome()
+    public Double getInitialIncome()
     {
         return initialIncome;
     }

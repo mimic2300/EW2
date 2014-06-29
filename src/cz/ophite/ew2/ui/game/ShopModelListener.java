@@ -1,8 +1,8 @@
 package cz.ophite.ew2.ui.game;
 
-import cz.ophite.ew2.game.json.Resource;
+import java.util.EventListener;
 
-public interface ShopModelListener
+public interface ShopModelListener extends EventListener
 {
-    void checkResource(Resource resource, int totalPrice, float totalIncome);
+    void resourceChecked(double price, double income);
 }

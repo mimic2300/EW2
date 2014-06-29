@@ -4,37 +4,37 @@
       "code": "NEWBIE",
       "name": "Newbie",
       "description": "For llamas without a hint of gaming experience.",
-      "energyBoostPerTick": 2.0
+      "incomeModifier": 5.0
     },
     {
       "code": "EASY",
       "name": "Easy",
       "description": "For kids who playing Hello Kitty.",
-      "energyBoostPerTick": 1.5
+      "incomeModifier": 2.5
     },
     {
       "code": "NORMAL",
       "name": "Normal",
       "description": "For a normal players.",
-      "energyBoostPerTick": 1.0
+      "incomeModifier": 1.0
     },
     {
       "code": "HARD",
       "name": "Hard",
       "description": "For experienced administrators energy.",
-      "energyBoostPerTick": 0.7
+      "incomeModifier": 0.8
     },
     {
       "code": "BRUTAL",
       "name": "Brutal",
       "description": "For ruler of atomic particles.",
-      "energyBoostPerTick": 0.45
+      "incomeModifier": 0.6
     },
     {
       "code": "NIGHTMARE",
       "name": "Nightmare",
       "description": "For gamers waiting for disaster.",
-      "energyBoostPerTick": 0.2
+      "incomeModifier": 0.4
     }
   ]
 }

@@ -1,13 +1,18 @@
 package cz.ophite.ew2.game;
 
-import java.util.Observable;
-
+import cz.ophite.ew2.game.json.ConfigJson;
+import cz.ophite.ew2.game.json.ConfigProvider;
 import cz.ophite.ew2.game.json.Difficulty;
 import cz.ophite.ew2.game.json.DifficultyProvider;
+import cz.ophite.ew2.ui.ScenePane;
+import cz.ophite.ew2.util.EventHandler;
 
-public final class GameBoard extends Observable
+public final class GameBoard
 {
+    private static final ConfigJson CONF = ConfigProvider.getInstance().getGameConfig();
     private static final DifficultyProvider DP = DifficultyProvider.getInstance();
+
+    public final GameBoardHandler gameBoardHandler = new GameBoardHandler();
 
     private GameState gameState;
     private Difficulty difficulty;
@@ -15,7 +20,7 @@ public final class GameBoard extends Observable
 
     public GameBoard()
     {
-        player = new Player();
+        player = new Player(this);
         difficulty = DP.getDefaultDifficulty();
     }
 
@@ -34,8 +39,7 @@ public final class GameBoard extends Observable
         if (this.gameState != gameState) {
             this.gameState = gameState;
 
-            setChanged();
-            notifyObservers(this);
+            gameBoardHandler.fireGameStateChanged(gameState);
         }
     }
 
@@ -47,5 +51,30 @@ public final class GameBoard extends Observable
     public void setDifficulty(Difficulty difficulty)
     {
         this.difficulty = difficulty;
+    }
+
+    public void updatePlayerMoney()
+    {
+        player.setMoney(player.getMoney() + getMoneyPerTick());
+    }
+
+    public double getMoneyPerTick()
+    {
+        return (player.getIncome() * getDifficulty().getIncomeModifier()) * CONF.getEnergyRate();
+    }
+
+    public double getMoneyPerSecond()
+    {
+        return (1000.0 / ScenePane.UPDATE_DELAY) * getMoneyPerTick();
+    }
+
+    public class GameBoardHandler extends EventHandler<GameBoardListener>
+    {
+        private void fireGameStateChanged(GameState newState)
+        {
+            for (GameBoardListener listener : listeners) {
+                listener.gameStateChanged(newState);
+            }
+        }
     }
 }

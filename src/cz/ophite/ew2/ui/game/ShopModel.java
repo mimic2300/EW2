@@ -1,25 +1,47 @@
 package cz.ophite.ew2.ui.game;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.table.AbstractTableModel;
 
+import cz.ophite.ew2.game.Player;
 import cz.ophite.ew2.game.json.Resource;
 import cz.ophite.ew2.game.json.ResourceProvider;
+import cz.ophite.ew2.util.EventHandler;
 
 @SuppressWarnings("serial")
 public class ShopModel extends AbstractTableModel
 {
     private static final ResourceProvider RP = ResourceProvider.getInstance();
 
-    private String[] columnNames = { "Name", "Price", "Income", "Buy" };
-    private Object[][] data = prepareData();
-    private Object[] longestRowPattern = { getLongestRowByName(), 1000000, 1000, true, "" };
-    private ShopModelListener modelListener;
+    private static final int COLUMN_PURCHASED = 0;
+    private static final int COLUMN_BUY = 4;
+    private static final int COLUMN_CODE = 5;
+    private static final int LAST_COLUMN = COLUMN_CODE;
 
-    private int totalPrice = 0;
-    private float totalIncome = 0;
+    public final ShopModelHandler shopHandler = new ShopModelHandler();
+
+    private Player player;
+
+    private String[] columnNames;
+    private Object[][] data;
+    private Object[] longestRowPattern;
+
+    private Set<Resource> checkedResource;
+    private double price = 0;
+    private double income = 0;
+
+    public ShopModel(Player player)
+    {
+        this.player = player;
+        columnNames = new String[] { "Own", "Name", "Price", "Income", "" };
+        longestRowPattern = new Object[] { 0, getLongestRowByName(), 1000000., 1000., true, "" };
+        checkedResource = new HashSet<Resource>();
+        data = prepareData();
+    }
 
     @Override
     public int getColumnCount()
@@ -54,7 +76,7 @@ public class ShopModel extends AbstractTableModel
     @Override
     public boolean isCellEditable(int row, int col)
     {
-        return col == 3;
+        return (col == COLUMN_BUY);
     }
 
     @Override
@@ -63,21 +85,75 @@ public class ShopModel extends AbstractTableModel
         data[row][col] = value;
         fireTableCellUpdated(row, col);
 
-        String resCode = (String) data[row][getLongestRowPattern().length - 1];
+        String resCode = (String) data[row][COLUMN_CODE];
         Resource res = RP.getResourceByCode(resCode);
 
         if (Boolean.TRUE.equals(value)) {
-            totalPrice += res.getPrice();
-            totalIncome += res.getIncome();
+            checkedResource.add(res);
         } else {
-            totalPrice -= res.getPrice();
-            totalIncome -= res.getIncome();
+            checkedResource.remove(res);
         }
-        totalIncome = Float.valueOf(String.format("%.3f", totalIncome));
+        calculatePriceAndIncome();
+        shopHandler.fireResourceChecked(price, income);
+    }
 
-        if (modelListener != null) {
-            modelListener.checkResource(res, totalPrice, totalIncome);
+    public Set<Resource> getCheckedResources()
+    {
+        return checkedResource;
+    }
+
+    public double getPrice()
+    {
+        return price;
+    }
+
+    public double getIncome()
+    {
+        return income;
+    }
+
+    public void resetAfterAction()
+    {
+        for (int row = 0; row < LAST_COLUMN; row++) {
+            Resource res = RP.getResourceByCode((String) data[row][COLUMN_CODE]);
+            int purchasedCount = player.getResourceCountOf(res);
+
+            if (checkedResource.contains(res)) {
+                data[row][COLUMN_BUY] = false;
+                data[row][COLUMN_PURCHASED] = purchasedCount;
+                fireTableCellUpdated(row, COLUMN_BUY);
+                fireTableCellUpdated(row, COLUMN_PURCHASED);
+            }
         }
+        checkedResource.clear();
+        calculatePriceAndIncome();
+        shopHandler.fireResourceChecked(price, income);
+    }
+
+    public void resetPurchased()
+    {
+        for (int row = 0; row < LAST_COLUMN; row++) {
+            data[row][COLUMN_PURCHASED] = 0;
+            fireTableCellUpdated(row, COLUMN_PURCHASED);
+        }
+    }
+
+    public Object[] getLongestRowPattern()
+    {
+        return longestRowPattern;
+    }
+
+    private void calculatePriceAndIncome()
+    {
+        price = 0;
+        income = 0;
+
+        for (Resource res : checkedResource) {
+            price += res.getPrice();
+            income += res.getIncome();
+        }
+        price = Double.valueOf(String.format("%.3f", price));
+        income = Double.valueOf(String.format("%.3f", income));
     }
 
     private Object[][] prepareData()
@@ -86,6 +162,7 @@ public class ShopModel extends AbstractTableModel
 
         for (Resource res : RP.getResources()) {
             List<Object> column = new ArrayList<Object>();
+            column.add(0);
             column.add(res.getName());
             column.add(res.getPrice());
             column.add(res.getIncome());
@@ -112,13 +189,13 @@ public class ShopModel extends AbstractTableModel
         return longest.getName();
     }
 
-    public void setModelListener(ShopModelListener modelListener)
+    class ShopModelHandler extends EventHandler<ShopModelListener>
     {
-        this.modelListener = modelListener;
-    }
-
-    public Object[] getLongestRowPattern()
-    {
-        return longestRowPattern;
+        private void fireResourceChecked(double price, double income)
+        {
+            for (ShopModelListener listener : listeners) {
+                listener.resourceChecked(price, income);
+            }
+        }
     }
 }

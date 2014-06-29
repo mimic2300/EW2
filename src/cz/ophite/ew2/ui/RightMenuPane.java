@@ -7,8 +7,6 @@ import java.awt.Window;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.AbstractButton;
 import javax.swing.JOptionPane;
@@ -17,6 +15,7 @@ import com.alee.laf.button.WebButton;
 import com.alee.laf.button.WebToggleButton;
 
 import cz.ophite.ew2.game.GameBoard;
+import cz.ophite.ew2.game.GameBoardListener;
 import cz.ophite.ew2.game.GameState;
 import cz.ophite.ew2.game.json.ConfigJson;
 import cz.ophite.ew2.game.json.ConfigProvider;
@@ -24,7 +23,7 @@ import cz.ophite.ew2.ui.base.AbstractPane;
 import cz.ophite.ew2.ui.game.ShopDialog;
 
 @SuppressWarnings("serial")
-public class RightMenuPane extends AbstractPane implements Observer
+public class RightMenuPane extends AbstractPane implements GameBoardListener
 {
     private static final ConfigJson CONF = ConfigProvider.getInstance().getGameConfig();
 
@@ -36,7 +35,7 @@ public class RightMenuPane extends AbstractPane implements Observer
     public RightMenuPane(Window gameWindow, Component owner, GameBoard gameBoard)
     {
         super(gameWindow, owner);
-        gameBoard.addObserver(this);
+        gameBoard.gameBoardHandler.addListener(this);
 
         setLayout(new FlowLayout());
 
@@ -52,9 +51,8 @@ public class RightMenuPane extends AbstractPane implements Observer
             }
         });
 
-        shopDialog = new ShopDialog(gameWindow, gameBoard.getPlayer());
+        shopDialog = new ShopDialog(gameWindow, gameBoard);
         calculateShopPosition();
-        shopDialog.setVisibleEx(true); // HACK FOR TESTING !!!
     }
 
     private AbstractButton addButton(String name, boolean toggle, ActionListener action)
@@ -91,11 +89,9 @@ public class RightMenuPane extends AbstractPane implements Observer
     }
 
     @Override
-    public void update(Observable o, Object arg)
+    public void gameStateChanged(GameState newState)
     {
-        GameBoard board = (GameBoard) arg;
-
-        switch (board.getGameState()) {
+        switch (newState) {
             case MENU:
                 btnOpenShop.setVisible(false);
                 btnGiveUp.setVisible(false);

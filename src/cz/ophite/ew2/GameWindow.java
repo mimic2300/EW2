@@ -4,14 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JOptionPane;
 
 import com.alee.extended.window.ComponentMoveAdapter;
 
 import cz.ophite.ew2.game.GameBoard;
+import cz.ophite.ew2.game.GameBoardListener;
 import cz.ophite.ew2.game.GameRenderer;
 import cz.ophite.ew2.game.GameState;
 import cz.ophite.ew2.game.json.ConfigJson;
@@ -23,7 +22,7 @@ import cz.ophite.ew2.ui.RightMenuPane;
 import cz.ophite.ew2.ui.base.AbstractFrame;
 
 @SuppressWarnings("serial")
-public final class GameWindow extends AbstractFrame implements Observer
+public final class GameWindow extends AbstractFrame implements GameBoardListener
 {
     private static final ConfigJson CONF = ConfigProvider.getInstance().getGameConfig();
 
@@ -44,7 +43,7 @@ public final class GameWindow extends AbstractFrame implements Observer
     protected void initComponents()
     {
         gameBoard = new GameBoard();
-        gameBoard.addObserver(this);
+        gameBoard.gameBoardHandler.addListener(this);
 
         ComponentMoveAdapter.install(getRootPane(), GameWindow.this);
 
@@ -95,8 +94,10 @@ public final class GameWindow extends AbstractFrame implements Observer
     }
 
     @Override
-    public void update(Observable o, Object arg)
+    public void gameStateChanged(GameState newState)
     {
-        GameBoard board = (GameBoard) arg;
+        if (newState == GameState.MENU) {
+            gameBoard.getPlayer().clear();
+        }
     }
 }

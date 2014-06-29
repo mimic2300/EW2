@@ -11,10 +11,10 @@ public final class Resource implements Comparable<Resource>
     private String name;
 
     @SerializedName("price")
-    private Integer price;
+    private Double price;
 
     @SerializedName("income")
-    private Float income;
+    private Double income;
 
     public String getCode()
     {
@@ -26,12 +26,12 @@ public final class Resource implements Comparable<Resource>
         return name;
     }
 
-    public int getPrice()
+    public Double getPrice()
     {
         return price;
     }
 
-    public float getIncome()
+    public Double getIncome()
     {
         return income;
     }

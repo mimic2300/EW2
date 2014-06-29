@@ -21,7 +21,7 @@ import cz.ophite.ew2.ui.base.AbstractPane;
 @SuppressWarnings("serial")
 public abstract class ScenePane extends AbstractPane
 {
-    private static final int UPDATE_DELAY = 10; // ms
+    public static final int UPDATE_DELAY = 16; // ms
 
     private Timer timer;
     private BufferedImage backBuffer;

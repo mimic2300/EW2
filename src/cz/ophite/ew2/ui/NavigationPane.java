@@ -7,25 +7,25 @@ import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
-import java.util.Observable;
-import java.util.Observer;
 
 import com.alee.laf.button.WebButton;
 
 import cz.ophite.ew2.game.GameBoard;
+import cz.ophite.ew2.game.GameBoardListener;
+import cz.ophite.ew2.game.GameState;
 import cz.ophite.ew2.ui.base.AbstractFrame;
 import cz.ophite.ew2.ui.base.AbstractPane;
 import cz.ophite.ew2.ui.game.NewGameDialog;
 
 @SuppressWarnings("serial")
-public class NavigationPane extends AbstractPane implements Observer
+public class NavigationPane extends AbstractPane implements GameBoardListener
 {
     private WebButton btnNewGame;
 
     public NavigationPane(Window gameWindow, Component owner, GameBoard gameBoard)
     {
         super(gameWindow, owner);
-        gameBoard.addObserver(this);
+        gameBoard.gameBoardHandler.addListener(this);
 
         setLayout(new FlowLayout());
 
@@ -50,11 +50,9 @@ public class NavigationPane extends AbstractPane implements Observer
     }
 
     @Override
-    public void update(Observable o, Object arg)
+    public void gameStateChanged(GameState newState)
     {
-        GameBoard board = (GameBoard) arg;
-
-        switch (board.getGameState()) {
+        switch (newState) {
             case MENU:
                 btnNewGame.setVisible(true);
                 break;

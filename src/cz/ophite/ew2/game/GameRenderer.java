@@ -12,6 +12,7 @@ import cz.ophite.ew2.ui.ScenePane;
 public class GameRenderer extends ScenePane
 {
     private GameBoard gameBoard;
+    private Player player;
 
     private float theta = 0;
     private boolean thetaAddition = true;
@@ -20,6 +21,7 @@ public class GameRenderer extends ScenePane
     {
         super(gameWindow, gameWindow);
         this.gameBoard = gameBoard;
+        player = gameBoard.getPlayer();
     }
 
     @Override
@@ -34,6 +36,11 @@ public class GameRenderer extends ScenePane
                 drawPlayState(g2);
                 break;
         }
+        g2.drawString(String.format("Money: %.0f (%.3f /t), (%.3f /s)",
+                player.getMoney(),
+                gameBoard.getMoneyPerTick(),
+                gameBoard.getMoneyPerSecond()), 10, getHeight() - 5);
+        g2.drawString(String.format("Income: %.3f", player.getIncome()), 330, getHeight() - 5);
     }
 
     @Override
@@ -46,6 +53,7 @@ public class GameRenderer extends ScenePane
         if (theta < -8) {
             thetaAddition = true;
         }
+        gameBoard.updatePlayerMoney();
     }
 
     private void drawPlayState(Graphics2D g2)
@@ -53,7 +61,9 @@ public class GameRenderer extends ScenePane
 
     private void drawMenuState(Graphics2D g2)
     {
-        // DEBUG
+        Player player = gameBoard.getPlayer();
+
+        // DEBUG BEGIN
         g2.setColor(Color.BLACK);
         g2.drawString(String.valueOf(theta), 10, 20);
         g2.drawString(String.valueOf(thetaAddition), 10, 35);
@@ -66,6 +76,7 @@ public class GameRenderer extends ScenePane
             g2.drawRect(center.x - 140 + n, center.y - 140 + n, 280 - n * 2, 280 - n * 2);
         }
         g2.setTransform(transform);
+        // DEBUG END
     }
 
     private Point getCenter()
