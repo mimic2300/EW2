@@ -9,9 +9,9 @@ import java.awt.Font;
 import java.awt.Window;
 import java.util.Set;
 
-import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
@@ -24,6 +24,8 @@ import cz.ophite.ew2.game.GameBoard;
 import cz.ophite.ew2.game.GameBoardListener;
 import cz.ophite.ew2.game.GameState;
 import cz.ophite.ew2.game.Player;
+import cz.ophite.ew2.game.json.ConfigJson;
+import cz.ophite.ew2.game.json.ConfigProvider;
 import cz.ophite.ew2.game.json.Resource;
 import cz.ophite.ew2.ui.base.AbstractDialog;
 import cz.ophite.ew2.util.GuiUtil;
@@ -31,6 +33,8 @@ import cz.ophite.ew2.util.GuiUtil;
 @SuppressWarnings("serial")
 public class ShopDialog extends AbstractDialog implements GameBoardListener
 {
+    private static final ConfigJson CONF = ConfigProvider.getInstance().getGameConfig();
+
     private Player player;
 
     private ShopModelResCountRenderer shopRenderer;
@@ -40,10 +44,11 @@ public class ShopDialog extends AbstractDialog implements GameBoardListener
     private JLabel lbIncome;
     private WebButton btnBuy;
     private WebButton btnSell;
+    private WebTable table;
 
     public ShopDialog(Window gameWindow, GameBoard gameBoard)
     {
-        super(gameWindow, "Energy sources shop", 450, 260);
+        super(gameWindow, "Energy sources shop", 450, CONF.getWindowHeight());
         gameBoard.gameBoardHandler.addListener(this);
         player = gameBoard.getPlayer();
 
@@ -64,10 +69,13 @@ public class ShopDialog extends AbstractDialog implements GameBoardListener
 
         shopRenderer = new ShopModelResCountRenderer(player);
 
-        WebTable table = new WebTable(shopModel);
-        table.setRowSelectionAllowed(false);
+        table = new WebTable(shopModel);
+        table.setRowSelectionAllowed(true);
         table.setColumnSelectionAllowed(false);
-        table.setSelectionBackground(Color.WHITE);
+        table.setSelectionBackground(new Color(245, 255, 120));
+        table.setSelectionForeground(Color.BLACK);
+        table.setForeground(Color.BLACK);
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.getColumnModel().getColumn(0).setCellRenderer(shopRenderer);
 
         WebScrollPane scrollPane = new WebScrollPane(table);
@@ -79,10 +87,11 @@ public class ShopDialog extends AbstractDialog implements GameBoardListener
         controlPane.setLayout(new BorderLayout());
         {
             JPanel labelsPane = new JPanel();
-            labelsPane.setPreferredSize(new Dimension(150, 0));
+            labelsPane.setPreferredSize(new Dimension(260, 0));
             labelsPane.setLayout(new FlowLayout(FlowLayout.LEFT));
             {
                 JPanel pricePane = new JPanel();
+                pricePane.setPreferredSize(new Dimension(250, 13));
                 pricePane.setLayout(new BorderLayout());
                 {
                     JLabel lbPriceStatic = new JLabel("Price: ");
@@ -93,6 +102,7 @@ public class ShopDialog extends AbstractDialog implements GameBoardListener
                     pricePane.add(lbPrice, BorderLayout.CENTER);
                 }
                 JPanel incomePane = new JPanel();
+                incomePane.setPreferredSize(new Dimension(250, 13));
                 incomePane.setLayout(new BorderLayout());
                 {
                     JLabel lbIncomeStatic = new JLabel("Income: ");
@@ -103,9 +113,7 @@ public class ShopDialog extends AbstractDialog implements GameBoardListener
                     incomePane.add(lbIncome, BorderLayout.CENTER);
                 }
                 labelsPane.add(pricePane);
-                labelsPane.add(Box.createHorizontalGlue());
                 labelsPane.add(incomePane);
-                labelsPane.add(Box.createHorizontalStrut(40));
             }
             JPanel buttonsPane = new JPanel();
             buttonsPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -204,6 +212,7 @@ public class ShopDialog extends AbstractDialog implements GameBoardListener
         if (newState == GameState.PLAY) {
             shopModel.resetAfterAction();
             shopModel.resetPurchased();
+            table.clearSelection();
 
             checkPrice(shopModel.getPrice());
             checkIncome(shopModel.getIncome());
