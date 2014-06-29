@@ -16,9 +16,9 @@ import cz.ophite.ew2.game.GameState;
 import cz.ophite.ew2.game.json.ConfigJson;
 import cz.ophite.ew2.game.json.ConfigProvider;
 import cz.ophite.ew2.ui.FooterPane;
+import cz.ophite.ew2.ui.GameMenuPane;
 import cz.ophite.ew2.ui.HeaderPane;
 import cz.ophite.ew2.ui.NavigationPane;
-import cz.ophite.ew2.ui.GameMenuPane;
 import cz.ophite.ew2.ui.base.AbstractFrame;
 import cz.ophite.ew2.util.GuiUtil;
 
@@ -67,7 +67,10 @@ public final class GameWindow extends AbstractFrame implements GameBoardListener
             }
         });
 
-        navigationPane = new NavigationPane(this, this, gameBoard);
+        gameRenderer = new GameRenderer(this, gameBoard);
+        getContent().add(gameRenderer, BorderLayout.CENTER);
+
+        navigationPane = new NavigationPane(this, this, gameBoard, gameRenderer);
         navigationPane.setBackground(getBackground());
         navigationPane.setPreferredSize(new Dimension(123, 0));
         getContent().add(navigationPane, BorderLayout.WEST);
@@ -85,9 +88,6 @@ public final class GameWindow extends AbstractFrame implements GameBoardListener
         footerPane = new FooterPane(this, this);
         footerPane.setBackground(getBackground());
         getContent().add(footerPane, BorderLayout.SOUTH);
-
-        gameRenderer = new GameRenderer(this, gameBoard);
-        getContent().add(gameRenderer, BorderLayout.CENTER);
 
         gameBoard.setGameState(GameState.MENU);
     }

@@ -43,7 +43,7 @@ public class NewGameDialog extends AbstractDialog
 
     public NewGameDialog(Window gameWindow, GameBoard gameBoard)
     {
-        super(gameWindow, "New Game", 400, 260);
+        super(gameWindow, "New Game", 450, 260);
         this.gameBoard = gameBoard;
         selectedDifficulty = gameBoard.getDifficulty();
 

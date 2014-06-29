@@ -4,31 +4,36 @@
       "code": "HYDROELECTRIC_POWER_STATION",
       "name": "Hydroelectric power station",
       "price": 50000,
-      "income": 0.05
+      "income": 0.05,
+      "max_limit": 100
     },
     {
       "code": "COALFIRED_POWER_PLANT",
       "name": "Coal-fired power plant",
       "price": 32000,
-      "income": 0.11
+      "income": 0.11,
+      "max_limit": 100
     },
     {
       "code": "TEST_A",
       "name": "Test A",
       "price": 5800,
-      "income": 0.154
+      "income": 0.154,
+      "max_limit": 1
     },
     {
       "code": "TEST_B",
       "name": "Test B",
-      "price": 675000,
-      "income": 0.6
+      "price": 3000,
+      "income": 0.6,
+      "max_limit": 5
     },
     {
       "code": "TEST_C",
       "name": "Test C",
       "price": 99786,
-      "income": 0.777
+      "income": 0.777,
+      "max_limit": 100
     }
   ]
 }

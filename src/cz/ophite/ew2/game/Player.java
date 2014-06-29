@@ -78,14 +78,26 @@ public final class Player
 
     public void buyResource(Resource res)
     {
+        boolean added = false;
+
         if (!resources.containsKey(res.getCode())) {
-            resources.put(res.getCode(), 1);
+            if (res.getMaxLimit() > 0) {
+                resources.put(res.getCode(), 1);
+                added = true;
+            }
         } else {
-            int count = resources.remove(res.getCode());
-            resources.put(res.getCode(), count + 1);
+            int count = resources.get(res.getCode());
+
+            if (count < res.getMaxLimit()) {
+                resources.remove(res.getCode());
+                resources.put(res.getCode(), count + 1);
+                added = true;
+            }
         }
-        setMoney(getMoney() - res.getPrice());
-        calculateIncome();
+        if (added) {
+            setMoney(getMoney() - res.getPrice());
+            calculateIncome();
+        }
     }
 
     public boolean sellResource(Resource res)

@@ -17,10 +17,10 @@ public class ShopModel extends AbstractTableModel
 {
     private static final ResourceProvider RP = ResourceProvider.getInstance();
 
-    private static final int COLUMN_PURCHASED = 0;
-    private static final int COLUMN_BUY = 4;
-    private static final int COLUMN_CODE = 5;
-    private static final int LAST_COLUMN = COLUMN_CODE;
+    public static final int COLUMN_PURCHASED = 0;
+    public static final int COLUMN_BUY = 4;
+    public static final int COLUMN_CODE = 5;
+    public static final int LAST_COLUMN = COLUMN_CODE;
 
     public final ShopModelHandler shopHandler = new ShopModelHandler();
 
@@ -38,7 +38,7 @@ public class ShopModel extends AbstractTableModel
     {
         this.player = player;
         columnNames = new String[] { "Own", "Name", "Price", "Income", "" };
-        longestRowPattern = new Object[] { 0, getLongestRowByName(), 1000000., 1000., true, "" };
+        longestRowPattern = new Object[] { "1000/1000", getLongestRowByName(), 1000000., 1000., true, "" };
         checkedResource = new HashSet<Resource>();
         data = prepareData();
     }
@@ -117,10 +117,10 @@ public class ShopModel extends AbstractTableModel
         for (int row = 0; row < LAST_COLUMN; row++) {
             Resource res = RP.getResourceByCode((String) data[row][COLUMN_CODE]);
             int purchasedCount = player.getResourceCountOf(res);
-
             if (checkedResource.contains(res)) {
+
                 data[row][COLUMN_BUY] = false;
-                data[row][COLUMN_PURCHASED] = purchasedCount;
+                data[row][COLUMN_PURCHASED] = String.format("%s / %s", purchasedCount, res.getMaxLimit());
                 fireTableCellUpdated(row, COLUMN_BUY);
                 fireTableCellUpdated(row, COLUMN_PURCHASED);
             }
@@ -130,10 +130,16 @@ public class ShopModel extends AbstractTableModel
         shopHandler.fireResourceChecked(price, income);
     }
 
+    public Resource getResource(int row)
+    {
+        return RP.getResourceByCode((String) data[row][COLUMN_CODE]);
+    }
+
     public void resetPurchased()
     {
         for (int row = 0; row < LAST_COLUMN; row++) {
-            data[row][COLUMN_PURCHASED] = 0;
+            Resource res = RP.getResourceByCode((String) data[row][COLUMN_CODE]);
+            data[row][COLUMN_PURCHASED] = String.format("0 / %s", res.getMaxLimit());
             fireTableCellUpdated(row, COLUMN_PURCHASED);
         }
     }
@@ -162,7 +168,7 @@ public class ShopModel extends AbstractTableModel
 
         for (Resource res : RP.getResources()) {
             List<Object> column = new ArrayList<Object>();
-            column.add(0);
+            column.add(String.format("0 / %s", res.getMaxLimit()));
             column.add(res.getName());
             column.add(res.getPrice());
             column.add(res.getIncome());

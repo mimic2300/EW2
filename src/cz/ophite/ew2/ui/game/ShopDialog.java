@@ -31,9 +31,9 @@ import cz.ophite.ew2.util.GuiUtil;
 @SuppressWarnings("serial")
 public class ShopDialog extends AbstractDialog implements GameBoardListener
 {
-    private GameBoard gameBoard;
     private Player player;
 
+    private ShopModelResCountRenderer shopRenderer;
     private ShopModel shopModel;
 
     private JLabel lbPrice;
@@ -44,7 +44,6 @@ public class ShopDialog extends AbstractDialog implements GameBoardListener
     public ShopDialog(Window gameWindow, GameBoard gameBoard)
     {
         super(gameWindow, "Energy sources shop", 400, 260);
-        this.gameBoard = gameBoard;
         gameBoard.gameBoardHandler.addListener(this);
         player = gameBoard.getPlayer();
 
@@ -63,9 +62,13 @@ public class ShopDialog extends AbstractDialog implements GameBoardListener
             checkIncome(income);
         });
 
+        shopRenderer = new ShopModelResCountRenderer(player);
+
         WebTable table = new WebTable(shopModel);
         table.setRowSelectionAllowed(false);
         table.setColumnSelectionAllowed(false);
+        table.setSelectionBackground(Color.WHITE);
+        table.getColumnModel().getColumn(0).setCellRenderer(shopRenderer);
 
         WebScrollPane scrollPane = new WebScrollPane(table);
         resizeTableColumns(table);
@@ -100,7 +103,7 @@ public class ShopDialog extends AbstractDialog implements GameBoardListener
                     incomePane.add(lbIncome, BorderLayout.CENTER);
                 }
                 labelsPane.add(pricePane);
-                labelsPane.add(Box.createHorizontalStrut(40));
+                labelsPane.add(Box.createHorizontalGlue());
                 labelsPane.add(incomePane);
                 labelsPane.add(Box.createHorizontalStrut(40));
             }
@@ -180,7 +183,7 @@ public class ShopDialog extends AbstractDialog implements GameBoardListener
             lbPrice.setForeground(valid ? new Color(50, 150, 50) : new Color(150, 50, 50));
         }
         lbPrice.setText(String.format("%.0f / %.0f", tablePrice, player.getMoney()));
-        btnBuy.setEnabled(valid);
+        btnBuy.setEnabled(valid && !shopModel.getCheckedResources().isEmpty());
         btnSell.setEnabled(!shopModel.getCheckedResources().isEmpty());
     }
 

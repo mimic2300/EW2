@@ -8,7 +8,8 @@ public enum ImageConst
     GIVE_UP("icon_give_up.png"),
     SHOP("icon_shop.png"),
     BUY("icon_buy.png"),
-    SELL("icon_sell.png");
+    SELL("icon_sell.png"),
+    SCREENSHOT("icon_screen.png");
 
     private static final String IMAGE_PATH = "image/";
     private String name;

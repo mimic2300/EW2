@@ -16,6 +16,9 @@ public final class Resource implements Comparable<Resource>
     @SerializedName("income")
     private Double income;
 
+    @SerializedName("max_limit")
+    private Integer maxLimit;
+
     public String getCode()
     {
         return code;
@@ -34,6 +37,11 @@ public final class Resource implements Comparable<Resource>
     public Double getIncome()
     {
         return income;
+    }
+
+    public Integer getMaxLimit()
+    {
+        return maxLimit;
     }
 
     @Override

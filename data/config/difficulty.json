@@ -1,6 +1,12 @@
 {
   "difficulty": [
     {
+      "code": "CHEAT",
+      "name": "Cheat",
+      "description": "Cheating mode!",
+      "incomeModifier": 1000.0
+    },
+    {
       "code": "NEWBIE",
       "name": "Newbie",
       "description": "For llamas without a hint of gaming experience.",
