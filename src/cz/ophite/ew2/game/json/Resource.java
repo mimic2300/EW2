@@ -2,7 +2,9 @@ package cz.ophite.ew2.game.json;
 
 import com.google.gson.annotations.SerializedName;
 
-public final class Resource implements Comparable<Resource>
+import cz.ophite.ew2.game.json.base.UniqueCode;
+
+public final class Resource implements UniqueCode, Comparable<Resource>
 {
     @SerializedName("code")
     private String code;
@@ -19,6 +21,7 @@ public final class Resource implements Comparable<Resource>
     @SerializedName("max_limit")
     private Integer maxLimit;
 
+    @Override
     public String getCode()
     {
         return code;

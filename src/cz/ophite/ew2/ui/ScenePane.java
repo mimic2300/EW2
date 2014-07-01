@@ -75,6 +75,7 @@ public abstract class ScenePane extends AbstractPane
             g2.fillRect(0, 0, getWidth(), getHeight());
             g2.setColor(Color.GRAY);
             g2.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
+            g2.setColor(Color.BLACK);
 
             render(g2);
 
@@ -83,8 +84,6 @@ public abstract class ScenePane extends AbstractPane
         }
     }
 
-    public abstract void update();
-
     public abstract void render(Graphics2D g2);
 
     private class GameLoop extends TimerTask
@@ -92,7 +91,6 @@ public abstract class ScenePane extends AbstractPane
         @Override
         public void run()
         {
-            update();
             repaint();
         }
     }

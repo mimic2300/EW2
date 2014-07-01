@@ -60,12 +60,18 @@ public final class GameBoard
 
     public double getMoneyPerTick()
     {
-        return (player.getIncome() * getDifficulty().getIncomeModifier()) * CONF.getEnergyRate();
+        double baseIncome = player.getIncome() + difficulty.getInitialIncome();
+        return (baseIncome * getDifficulty().getIncomeModifier()) * CONF.getEnergyRate();
     }
 
     public double getMoneyPerSecond()
     {
-        return (1000.0 / ScenePane.UPDATE_DELAY) * getMoneyPerTick();
+        return toMoneyToSecond(getMoneyPerTick());
+    }
+
+    public static double toMoneyToSecond(double moneyPerTick)
+    {
+        return (1000.0 / ScenePane.UPDATE_DELAY) * moneyPerTick;
     }
 
     public class GameBoardHandler extends EventHandler<GameBoardListener>

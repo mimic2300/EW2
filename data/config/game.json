@@ -1,11 +1,11 @@
 {
   "game_title": "Energy Wars 2.0",
-  "game_version": "0.4.r29",
+  "game_version": "0.4.r33",
   
   "window_width": 720,
   "window_height": 480,
   
-  "energy_rate": 1.15,
+  "energy_rate": 5.15,
   
   "initial_money": 50000,
   "initial_income": 0

@@ -3,6 +3,7 @@ package cz.ophite.ew2.game.json;
 import java.util.List;
 
 import cz.ophite.ew2.Game;
+import cz.ophite.ew2.util.Utils;
 import cz.ophite.lib.json.Json;
 
 public final class DifficultyProvider
@@ -23,6 +24,12 @@ public final class DifficultyProvider
             instance = new DifficultyProvider();
             instance.difficultyJson = Json.smartLoadSingle(Game.class, RESOURCES_FILE, DifficultyJson.class);
             System.out.printf("Load (%s) = %s%n", DifficultyJson.class.getSimpleName(), instance.difficultyJson != null);
+
+            List<Difficulty> uniqueCheck = Utils.uniqueCheck(instance.difficultyJson.getDifficulty());
+
+            if (!uniqueCheck.isEmpty()) {
+                Utils.print(uniqueCheck);
+            }
         }
         return instance;
     }

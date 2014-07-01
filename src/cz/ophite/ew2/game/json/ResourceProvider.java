@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import cz.ophite.ew2.Game;
+import cz.ophite.ew2.util.Utils;
 import cz.ophite.lib.json.Json;
 
 public final class ResourceProvider
@@ -25,7 +26,13 @@ public final class ResourceProvider
             System.out.printf("Load (%s) = %s%n", ResourceJson.class.getSimpleName(), instance.resourceJson != null);
 
             if (instance.resourceJson != null) {
-                Collections.sort(instance.resourceJson.getResources());
+                List<Resource> uniqueCheck = Utils.uniqueCheck(instance.getResources());
+
+                if (uniqueCheck.isEmpty()) {
+                    Collections.sort(instance.resourceJson.getResources());
+                } else {
+                    Utils.print(uniqueCheck);
+                }
             }
         }
         return instance;

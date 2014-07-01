@@ -4,43 +4,50 @@
       "code": "CHEAT",
       "name": "Cheat",
       "description": "Cheating mode!",
-      "incomeModifier": 1000.0
+      "initial_income": 10.0,
+      "income_modifier": 1000.0
     },
     {
       "code": "NEWBIE",
       "name": "Newbie",
       "description": "For llamas without a hint of gaming experience.",
-      "incomeModifier": 5.0
+      "initial_income": 3.0,
+      "income_modifier": 5.0
     },
     {
       "code": "EASY",
       "name": "Easy",
       "description": "For kids who playing Hello Kitty.",
-      "incomeModifier": 2.5
+      "initial_income": 2.0,
+      "income_modifier": 2.5
     },
     {
       "code": "NORMAL",
       "name": "Normal",
       "description": "For a normal players.",
-      "incomeModifier": 1.0
+      "initial_income": 1.0,
+      "income_modifier": 1.0
     },
     {
       "code": "HARD",
       "name": "Hard",
       "description": "For experienced administrators energy.",
-      "incomeModifier": 0.8
+      "initial_income": 0.8,
+      "income_modifier": 0.8
     },
     {
       "code": "BRUTAL",
       "name": "Brutal",
       "description": "For ruler of atomic particles.",
-      "incomeModifier": 0.6
+      "initial_income": 0.6,
+      "income_modifier": 0.6
     },
     {
       "code": "NIGHTMARE",
       "name": "Nightmare",
       "description": "For gamers waiting for disaster.",
-      "incomeModifier": 0.4
+      "initial_income": 0.4,
+      "income_modifier": 0.4
     }
   ]
 }
