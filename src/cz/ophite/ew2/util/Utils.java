@@ -45,4 +45,14 @@ public final class Utils
             System.out.println("Dupe: " + obj.getCode());
         }
     }
+
+    public static String toString(double value)
+    {
+        return String.format("%.3f", value);
+    }
+
+    public static double toDoubleRound(double value)
+    {
+        return Double.valueOf(String.format("%.3f", value));
+    }
 }

@@ -39,6 +39,16 @@ public final class GameBoard
         if (this.gameState != gameState) {
             this.gameState = gameState;
 
+            switch (gameState) {
+                case MENU:
+                    player.clear();
+                    break;
+
+                case PLAY:
+                    player.setIncome(difficulty.getInitialIncome());
+                    player.setMoney(difficulty.getInitialMoney());
+                    break;
+            }
             gameBoardHandler.fireGameStateChanged(gameState);
         }
     }

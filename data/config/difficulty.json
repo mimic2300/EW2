@@ -5,13 +5,15 @@
       "name": "Cheat",
       "description": "Cheating mode!",
       "initial_income": 10.0,
-      "income_modifier": 1000.0
+      "initial_money": 1000000,
+      "income_modifier": 10.0
     },
     {
       "code": "NEWBIE",
       "name": "Newbie",
       "description": "For llamas without a hint of gaming experience.",
       "initial_income": 3.0,
+      "initial_money": 30000,
       "income_modifier": 5.0
     },
     {
@@ -19,6 +21,7 @@
       "name": "Easy",
       "description": "For kids who playing Hello Kitty.",
       "initial_income": 2.0,
+      "initial_money": 10000,
       "income_modifier": 2.5
     },
     {
@@ -26,6 +29,7 @@
       "name": "Normal",
       "description": "For a normal players.",
       "initial_income": 1.0,
+      "initial_money": 5000,
       "income_modifier": 1.0
     },
     {
@@ -33,6 +37,7 @@
       "name": "Hard",
       "description": "For experienced administrators energy.",
       "initial_income": 0.8,
+      "initial_money": 2000,
       "income_modifier": 0.8
     },
     {
@@ -40,6 +45,7 @@
       "name": "Brutal",
       "description": "For ruler of atomic particles.",
       "initial_income": 0.6,
+      "initial_money": 1000,
       "income_modifier": 0.6
     },
     {
@@ -47,6 +53,7 @@
       "name": "Nightmare",
       "description": "For gamers waiting for disaster.",
       "initial_income": 0.4,
+      "initial_money": 0,
       "income_modifier": 0.4
     }
   ]

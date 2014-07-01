@@ -4,15 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import cz.ophite.ew2.game.json.ConfigJson;
-import cz.ophite.ew2.game.json.ConfigProvider;
 import cz.ophite.ew2.game.json.Resource;
 import cz.ophite.ew2.game.json.ResourceProvider;
 import cz.ophite.ew2.util.EventHandler;
 
 public final class Player
 {
-    private static final ConfigJson CONF = ConfigProvider.getInstance().getGameConfig();
     private static final ResourceProvider RP = ResourceProvider.getInstance();
 
     public final PlayerHandler playerHandler = new PlayerHandler();
@@ -30,8 +27,8 @@ public final class Player
     public void clear()
     {
         name = null;
-        money = CONF.getInitialMoney();
-        income = CONF.getInitialIncome();
+        money = 0;
+        income = 0;
         resources.clear();
     }
 

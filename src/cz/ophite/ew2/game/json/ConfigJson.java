@@ -21,12 +21,6 @@ public final class ConfigJson
     @SerializedName("energy_rate")
     private Double energyRate;
 
-    @SerializedName("initial_money")
-    private Double initialMoney;
-
-    @SerializedName("initial_income")
-    private Double initialIncome;
-
     public String getGameTitle()
     {
         return gameTitle;
@@ -55,15 +49,5 @@ public final class ConfigJson
     public Double getEnergyRate()
     {
         return energyRate;
-    }
-
-    public Double getInitialMoney()
-    {
-        return initialMoney;
-    }
-
-    public Double getInitialIncome()
-    {
-        return initialIncome;
     }
 }

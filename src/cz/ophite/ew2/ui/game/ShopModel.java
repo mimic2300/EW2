@@ -7,10 +7,12 @@ import java.util.Set;
 
 import javax.swing.table.AbstractTableModel;
 
+import cz.ophite.ew2.game.GameBoard;
 import cz.ophite.ew2.game.Player;
 import cz.ophite.ew2.game.json.Resource;
 import cz.ophite.ew2.game.json.ResourceProvider;
 import cz.ophite.ew2.util.EventHandler;
+import cz.ophite.ew2.util.Utils;
 
 @SuppressWarnings("serial")
 public class ShopModel extends AbstractTableModel
@@ -20,7 +22,6 @@ public class ShopModel extends AbstractTableModel
     public static final int COLUMN_PURCHASED = 0;
     public static final int COLUMN_BUY = 4;
     public static final int COLUMN_CODE = 5;
-    public static final int LAST_COLUMN = COLUMN_CODE;
 
     public final ShopModelHandler shopHandler = new ShopModelHandler();
 
@@ -37,8 +38,8 @@ public class ShopModel extends AbstractTableModel
     public ShopModel(Player player)
     {
         this.player = player;
-        columnNames = new String[] { "Own", "Name", "Price", "Income", "" };
-        longestRowPattern = new Object[] { "1000 / 1000", getLongestRowByName(), 1000000., 1000., true, "" };
+        columnNames = new String[] { "Own", "Name", "Price", "Income/s", "" };
+        longestRowPattern = new Object[] { toPurchased(1000, 1000), getLongestRowByName(), 100000000., 1000000., true };
         checkedResource = new HashSet<Resource>();
         data = prepareData();
     }
@@ -114,13 +115,13 @@ public class ShopModel extends AbstractTableModel
 
     public void resetAfterAction()
     {
-        for (int row = 0; row < LAST_COLUMN; row++) {
+        for (int row = 0; row < data.length; row++) {
             Resource res = RP.getResourceByCode((String) data[row][COLUMN_CODE]);
             int purchasedCount = player.getResourceCountOf(res);
-            if (checkedResource.contains(res)) {
 
+            if (checkedResource.contains(res)) {
                 data[row][COLUMN_BUY] = false;
-                data[row][COLUMN_PURCHASED] = String.format("%s / %s", purchasedCount, res.getMaxLimit());
+                data[row][COLUMN_PURCHASED] = toPurchased(purchasedCount, res.getMaxLimit());
                 fireTableCellUpdated(row, COLUMN_BUY);
                 fireTableCellUpdated(row, COLUMN_PURCHASED);
             }
@@ -137,9 +138,9 @@ public class ShopModel extends AbstractTableModel
 
     public void resetPurchased()
     {
-        for (int row = 0; row < LAST_COLUMN; row++) {
+        for (int row = 0; row < data.length; row++) {
             Resource res = RP.getResourceByCode((String) data[row][COLUMN_CODE]);
-            data[row][COLUMN_PURCHASED] = String.format("0 / %s", res.getMaxLimit());
+            data[row][COLUMN_PURCHASED] = toPurchased(0, res.getMaxLimit());
             fireTableCellUpdated(row, COLUMN_PURCHASED);
         }
     }
@@ -158,8 +159,8 @@ public class ShopModel extends AbstractTableModel
             price += res.getPrice();
             income += res.getIncome();
         }
-        price = Double.valueOf(String.format("%.3f", price));
-        income = Double.valueOf(String.format("%.3f", income));
+        price = Utils.toDoubleRound(price);
+        income = Utils.toDoubleRound(income);
     }
 
     private Object[][] prepareData()
@@ -168,10 +169,10 @@ public class ShopModel extends AbstractTableModel
 
         for (Resource res : RP.getResources()) {
             List<Object> column = new ArrayList<Object>();
-            column.add(String.format("0 / %s", res.getMaxLimit()));
+            column.add(toPurchased(0, res.getMaxLimit()));
             column.add(res.getName());
             column.add(res.getPrice());
-            column.add(res.getIncome());
+            column.add(GameBoard.toMoneyToSecond(res.getIncome()));
             column.add(false);
             column.add(res.getCode());
 
@@ -193,6 +194,11 @@ public class ShopModel extends AbstractTableModel
             }
         }
         return longest.getName();
+    }
+
+    private String toPurchased(double current, double total)
+    {
+        return String.format("%s / %s", current, total);
     }
 
     class ShopModelHandler extends EventHandler<ShopModelListener>

@@ -18,6 +18,9 @@ public final class Difficulty implements UniqueCode
     @SerializedName("initial_income")
     private Double initialIncome;
 
+    @SerializedName("initial_money")
+    private Double initialMoney;
+
     @SerializedName("income_modifier")
     private Double incomeModifier;
 
@@ -40,6 +43,11 @@ public final class Difficulty implements UniqueCode
     public Double getInitialIncome()
     {
         return initialIncome;
+    }
+
+    public Double getInitialMoney()
+    {
+        return initialMoney;
     }
 
     public Double getIncomeModifier()
