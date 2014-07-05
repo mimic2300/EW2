@@ -26,7 +26,7 @@ public final class Player
 
     public void clear()
     {
-        name = null;
+        name = "";
         money = 0;
         income = 0;
         resources.clear();

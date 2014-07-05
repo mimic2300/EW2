@@ -1,5 +1,7 @@
 package cz.ophite.ew2.game;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Window;
@@ -10,6 +12,9 @@ import cz.ophite.ew2.ui.ScenePane;
 @SuppressWarnings("serial")
 public class GameRenderer extends ScenePane
 {
+    private static final Font FONT_NORMAL = new Font(Font.SANS_SERIF, Font.PLAIN, 13);
+    private static final Font FONT_BOLD = new Font(Font.SANS_SERIF, Font.BOLD, 13);
+
     private GameBoard gameBoard;
     private Player player;
 
@@ -59,7 +64,7 @@ public class GameRenderer extends ScenePane
             if (theta > 8) {
                 thetaAddition = false;
             }
-            if (theta < 0) {
+            if (theta < 2) {
                 thetaAddition = true;
             }
         }
@@ -87,19 +92,56 @@ public class GameRenderer extends ScenePane
     {
         private void update()
         {
-            gameBoard.updatePlayerMoney();
+            gameBoard.update();
         }
 
         private void render(Graphics2D g2)
         {
-            g2.drawString(getWidth() + "x" + getHeight(), 200, 20);
-            g2.drawString(String.format("Money: %.0f (%.3f /t), (%.3f /s)",
-                    player.getMoney(),
-                    gameBoard.getMoneyPerTick(),
-                    gameBoard.getMoneyPerSecond()),
-                    10,
-                    getHeight() - 5);
-            g2.drawString(String.format("Income: %.3f", player.getIncome()), 300, getHeight() - 5);
+            final int yStep = 18;
+            int y = 20;
+            int x = 140;
+
+            g2.setFont(FONT_BOLD);
+            g2.setColor(Color.BLACK);
+            g2.drawString("Player: ", 10, y);
+            g2.setColor(Color.BLUE);
+            g2.drawString(player.getName(), x, y);
+            y += yStep;
+
+            g2.setFont(FONT_BOLD);
+            g2.setColor(Color.BLACK);
+            g2.drawString("Income: ", 10, y);
+            g2.setColor(Color.BLUE);
+            g2.drawString(String.valueOf(player.getIncome()), x, y);
+            y += yStep;
+
+            g2.setFont(FONT_BOLD);
+            g2.setColor(Color.BLACK);
+            g2.drawString("Money: ", 10, y);
+            g2.setColor(Color.BLUE);
+            g2.drawString(String.format("%.0f", player.getMoney()), x, y);
+            y += yStep;
+
+            g2.setFont(FONT_BOLD);
+            g2.setColor(Color.BLACK);
+            g2.drawString("Money per tick: ", 10, y);
+            g2.setColor(Color.BLUE);
+            g2.drawString(String.format("%.3f", gameBoard.getMoneyPerTick()), x, y);
+            y += yStep;
+
+            g2.setFont(FONT_BOLD);
+            g2.setColor(Color.BLACK);
+            g2.drawString("Money per second: ", 10, y);
+            g2.setColor(Color.BLUE);
+            g2.drawString(String.format("%.3f", gameBoard.getMoneyPerSecond()), x, y);
+            y += yStep;
+
+            g2.setFont(FONT_BOLD);
+            g2.setColor(Color.BLACK);
+            g2.drawString("Elapsed time: ", 10, y);
+            g2.setColor(Color.BLUE);
+            g2.drawString(gameBoard.getElapsedTimeFormat(), x, y);
+            y += yStep;
         }
     }
 }

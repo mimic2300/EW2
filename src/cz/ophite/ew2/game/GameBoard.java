@@ -17,6 +17,8 @@ public final class GameBoard
     private GameState gameState;
     private Difficulty difficulty;
     private Player player;
+    private long startTime;
+    private long elapsedTime;
 
     public GameBoard()
     {
@@ -47,6 +49,7 @@ public final class GameBoard
                 case PLAY:
                     player.setIncome(difficulty.getInitialIncome());
                     player.setMoney(difficulty.getInitialMoney());
+                    startTime = System.currentTimeMillis();
                     break;
             }
             gameBoardHandler.fireGameStateChanged(gameState);
@@ -63,9 +66,10 @@ public final class GameBoard
         this.difficulty = difficulty;
     }
 
-    public void updatePlayerMoney()
+    public void update()
     {
         player.setMoney(player.getMoney() + getMoneyPerTick());
+        elapsedTime = System.currentTimeMillis() - startTime;
     }
 
     public double getMoneyPerTick()
@@ -82,6 +86,25 @@ public final class GameBoard
     public static double toMoneyToSecond(double moneyPerTick)
     {
         return (1000.0 / ScenePane.UPDATE_DELAY) * moneyPerTick;
+    }
+
+    public long getElapsedTime()
+    {
+        return elapsedTime;
+    }
+
+    public String getElapsedTimeFormat()
+    {
+        final long time = elapsedTime / 1000;
+        String out = String.format("%02ds ", time % 60);
+
+        if ((time % 3600) / 60 > 0) {
+            out = String.format("%02dm ", (time % 3600) / 60) + out;
+        }
+        if (time / 3600 > 0) {
+            out = String.format("%03dh ", time / 3600) + out;
+        }
+        return out;
     }
 
     public class GameBoardHandler extends EventHandler<GameBoardListener>
